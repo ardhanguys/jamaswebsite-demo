@@ -1,13 +1,27 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { Helmet } from "react-helmet-async";
+import Header from "@/components/Header";
+import HeroSection from "@/components/HeroSection";
+import AboutSection from "@/components/AboutSection";
+import BlogPreview from "@/components/BlogPreview";
+import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <>
+      <Helmet>
+        <title>JAMAS - School Mosque Congregation</title>
+        <meta name="description" content="JAMAS (Jamaah Masjid Sekolah) is a student organization dedicated to fostering Islamic values and brotherhood within our school community." />
+      </Helmet>
+      <div className="min-h-screen">
+        <Header />
+        <main>
+          <HeroSection />
+          <AboutSection />
+          <BlogPreview />
+        </main>
+        <Footer />
       </div>
-    </div>
+    </>
   );
 };
 
