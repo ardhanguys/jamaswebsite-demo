@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import logoJamas from "@/assets/logo-jamas.png";
 
 const navLinks = [{
   name: "Beranda",
@@ -56,9 +57,7 @@ const Header = () => {
         <nav className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center mx-[10px]">
-              <span className="text-primary-foreground font-bold text-lg">J</span>
-            </div>
+            <img src={logoJamas} alt="JAMAS Logo" className="w-12 h-12 object-contain" />
             <span className={cn("font-bold text-xl transition-colors duration-300", isScrolled ? "text-primary" : "text-primary")}>
               JAMAS
             </span>
