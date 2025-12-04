@@ -60,7 +60,7 @@ const AdminDashboard = () => {
               className="flex items-center gap-2 px-4 py-2 bg-primary-foreground/10 hover:bg-primary-foreground/20 rounded-lg transition-colors"
             >
               <LogOut size={18} />
-              <span className="hidden sm:inline">Logout</span>
+              <span className="hidden sm:inline">Keluar</span>
             </button>
           </div>
         </header>
@@ -69,7 +69,7 @@ const AdminDashboard = () => {
         <main className="max-w-7xl mx-auto px-4 py-8">
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-primary mb-2">Dashboard</h1>
-            <p className="text-muted-foreground">Welcome back! Here's an overview of your content.</p>
+            <p className="text-muted-foreground">Selamat datang kembali! Berikut ringkasan konten Anda.</p>
           </div>
 
           {/* Stats Cards */}
@@ -81,7 +81,7 @@ const AdminDashboard = () => {
                 </div>
               </div>
               <p className="text-3xl font-bold text-primary">{stats.totalPosts}</p>
-              <p className="text-muted-foreground">Total Posts</p>
+              <p className="text-muted-foreground">Total Postingan</p>
             </div>
 
             <div className="bg-background rounded-xl p-6 shadow-elegant">
@@ -91,7 +91,7 @@ const AdminDashboard = () => {
                 </div>
               </div>
               <p className="text-3xl font-bold text-primary">3</p>
-              <p className="text-muted-foreground">Categories</p>
+              <p className="text-muted-foreground">Kategori</p>
             </div>
 
             <div className="bg-background rounded-xl p-6 shadow-elegant">
@@ -100,8 +100,8 @@ const AdminDashboard = () => {
                   <span className="text-green-light font-bold">{stats.categories.study}</span>
                 </div>
               </div>
-              <p className="text-lg font-semibold text-primary">Islamic Study</p>
-              <p className="text-muted-foreground">Posts</p>
+              <p className="text-lg font-semibold text-primary">Kajian Islam</p>
+              <p className="text-muted-foreground">Postingan</p>
             </div>
 
             <div className="bg-background rounded-xl p-6 shadow-elegant">
@@ -110,14 +110,14 @@ const AdminDashboard = () => {
                   <span className="text-accent font-bold">{stats.categories.dakwah}</span>
                 </div>
               </div>
-              <p className="text-lg font-semibold text-primary">Da'wah</p>
-              <p className="text-muted-foreground">Posts</p>
+              <p className="text-lg font-semibold text-primary">Dakwah</p>
+              <p className="text-muted-foreground">Postingan</p>
             </div>
           </div>
 
           {/* Quick Actions */}
           <div className="bg-background rounded-xl p-6 shadow-elegant">
-            <h2 className="text-xl font-semibold text-primary mb-6">Quick Actions</h2>
+            <h2 className="text-xl font-semibold text-primary mb-6">Aksi Cepat</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Link
                 to="/admin/posts"
@@ -127,8 +127,8 @@ const AdminDashboard = () => {
                   <Settings className="text-primary group-hover:text-primary-foreground" size={20} />
                 </div>
                 <div>
-                  <p className="font-semibold">Manage Posts</p>
-                  <p className="text-sm text-muted-foreground group-hover:text-primary-foreground/80">View, edit, and delete posts</p>
+                  <p className="font-semibold">Kelola Postingan</p>
+                  <p className="text-sm text-muted-foreground group-hover:text-primary-foreground/80">Lihat, edit, dan hapus postingan</p>
                 </div>
               </Link>
 
@@ -140,8 +140,8 @@ const AdminDashboard = () => {
                   <Plus className="text-accent group-hover:text-accent-foreground" size={20} />
                 </div>
                 <div>
-                  <p className="font-semibold">Create New Post</p>
-                  <p className="text-sm text-muted-foreground group-hover:text-accent-foreground/80">Write a new article</p>
+                  <p className="font-semibold">Buat Postingan Baru</p>
+                  <p className="text-sm text-muted-foreground group-hover:text-accent-foreground/80">Tulis artikel baru</p>
                 </div>
               </Link>
             </div>
@@ -153,7 +153,7 @@ const AdminDashboard = () => {
               href="/"
               className="text-muted-foreground hover:text-primary transition-colors"
             >
-              ← View Website
+              ← Lihat Website
             </a>
           </div>
         </main>

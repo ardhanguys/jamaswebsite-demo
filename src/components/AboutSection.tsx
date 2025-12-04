@@ -3,33 +3,33 @@ import { Target, Eye, BookOpen, Users, Heart, Calendar } from "lucide-react";
 const features = [
   {
     icon: Target,
-    title: "Our Vision",
-    description: "To become a leading school mosque congregation that nurtures young Muslims with strong faith, noble character, and academic excellence."
+    title: "Visi Kami",
+    description: "Menjadi organisasi jamaah masjid sekolah terdepan yang membina generasi muda Muslim dengan iman yang kuat, akhlak mulia, dan prestasi akademik yang unggul."
   },
   {
     icon: Eye,
-    title: "Our Mission",
-    description: "Facilitate Islamic education, strengthen brotherhood among students, and contribute to the school community through beneficial programs."
+    title: "Misi Kami",
+    description: "Memfasilitasi pendidikan Islam, memperkuat ukhuwah antar siswa, dan berkontribusi kepada komunitas sekolah melalui program-program bermanfaat."
   },
   {
     icon: BookOpen,
-    title: "Islamic Education",
-    description: "Weekly study circles covering Quran recitation, Hadith studies, Islamic history, and contemporary Muslim issues."
+    title: "Pendidikan Islam",
+    description: "Kajian mingguan meliputi tadarus Al-Quran, kajian hadits, sejarah Islam, dan isu-isu kontemporer umat Muslim."
   },
   {
     icon: Users,
-    title: "Brotherhood",
-    description: "Building lasting friendships based on faith, mutual support during academic and personal challenges."
+    title: "Ukhuwah",
+    description: "Membangun persahabatan yang langgeng berdasarkan iman, saling mendukung dalam tantangan akademik dan pribadi."
   },
   {
     icon: Heart,
-    title: "Community Service",
-    description: "Regular charity programs, mosque maintenance, and outreach activities to serve both school and local communities."
+    title: "Bakti Sosial",
+    description: "Program amal rutin, perawatan masjid, dan kegiatan sosial untuk melayani komunitas sekolah dan masyarakat sekitar."
   },
   {
     icon: Calendar,
-    title: "Annual Events",
-    description: "Islamic Day celebrations, Ramadan programs, Eid gatherings, and inter-school Islamic competitions."
+    title: "Acara Tahunan",
+    description: "Perayaan Hari Besar Islam, program Ramadhan, perayaan Idul Fitri, dan lomba keislaman antar sekolah."
   }
 ];
 
@@ -40,14 +40,14 @@ const AboutSection = () => {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="inline-block px-4 py-1 bg-accent/20 text-accent rounded-full text-sm font-medium mb-4">
-            About Us
+            Tentang Kami
           </span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-6">
-            Who We Are
+            Siapa Kami
           </h2>
           <p className="text-lg text-muted-foreground">
-            JAMAS (Jamaah Masjid Sekolah) is a student organization dedicated to 
-            fostering Islamic values and brotherhood within our school community.
+            JAMAS (Jamaah Masjid Sekolah) adalah organisasi siswa yang didedikasikan untuk 
+            menumbuhkan nilai-nilai Islam dan ukhuwah di lingkungan sekolah kami.
           </p>
         </div>
 

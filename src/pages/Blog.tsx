@@ -3,13 +3,13 @@ import { Helmet } from "react-helmet-async";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PostCard from "@/components/PostCard";
-import { getPosts, Post, getCategoryLabel } from "@/lib/posts";
+import { getPosts, Post } from "@/lib/posts";
 
 const categories = [
-  { value: "all", label: "All Posts" },
-  { value: "study", label: "Islamic Study" },
-  { value: "dakwah", label: "Da'wah" },
-  { value: "activity", label: "Activity Info" }
+  { value: "all", label: "Semua Postingan" },
+  { value: "study", label: "Kajian Islam" },
+  { value: "dakwah", label: "Dakwah" },
+  { value: "activity", label: "Info Kegiatan" }
 ];
 
 const Blog = () => {
@@ -36,8 +36,8 @@ const Blog = () => {
   return (
     <>
       <Helmet>
-        <title>Da'wah & Activities - JAMAS</title>
-        <meta name="description" content="Explore Islamic articles, da'wah content, and activity updates from JAMAS." />
+        <title>Dakwah & Kegiatan - JAMAS</title>
+        <meta name="description" content="Jelajahi artikel Islam, konten dakwah, dan update kegiatan dari JAMAS." />
       </Helmet>
       <div className="min-h-screen bg-background">
         <Header />
@@ -46,13 +46,13 @@ const Blog = () => {
             {/* Page Header */}
             <div className="text-center max-w-3xl mx-auto mb-12">
               <span className="inline-block px-4 py-1 bg-accent/20 text-accent rounded-full text-sm font-medium mb-4">
-                Da'wah & Activities
+                Dakwah & Kegiatan
               </span>
               <h1 className="text-4xl md:text-5xl font-bold text-primary mb-6">
-                All Posts
+                Semua Postingan
               </h1>
               <p className="text-lg text-muted-foreground">
-                Explore our collection of Islamic articles, da'wah content, and activity updates.
+                Jelajahi koleksi artikel Islam, konten dakwah, dan update kegiatan kami.
               </p>
             </div>
 
@@ -89,7 +89,7 @@ const Blog = () => {
             {filteredPosts.length === 0 && (
               <div className="text-center py-20">
                 <p className="text-xl text-muted-foreground">
-                  No posts found in this category.
+                  Tidak ada postingan ditemukan dalam kategori ini.
                 </p>
               </div>
             )}

@@ -8,7 +8,7 @@ interface PostCardProps {
 
 const PostCard = ({ post }: PostCardProps) => {
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
+    return new Date(dateString).toLocaleDateString("id-ID", {
       year: "numeric",
       month: "long",
       day: "numeric"
@@ -54,7 +54,7 @@ const PostCard = ({ post }: PostCardProps) => {
           to={`/post/${post.id}`}
           className="inline-flex items-center gap-2 text-primary font-medium hover:text-accent transition-colors group/link"
         >
-          Read More
+          Baca Selengkapnya
           <ArrowRight size={16} className="transition-transform group-hover/link:translate-x-1" />
         </Link>
       </div>

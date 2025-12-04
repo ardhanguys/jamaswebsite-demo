@@ -10,10 +10,10 @@ const Footer = () => {
           <div>
             <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
               <span className="w-8 h-1 bg-accent rounded-full"></span>
-              Follow Us
+              Ikuti Kami
             </h3>
             <p className="text-primary-foreground/80 mb-6">
-              Stay connected with JAMAS through our social media channels.
+              Tetap terhubung dengan JAMAS melalui media sosial kami.
             </p>
             <div className="flex gap-4">
               <a
@@ -44,7 +44,7 @@ const Footer = () => {
           <div>
             <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
               <span className="w-8 h-1 bg-accent rounded-full"></span>
-              Resources
+              Sumber Daya
             </h3>
             <ul className="space-y-3">
               <li>
@@ -52,7 +52,7 @@ const Footer = () => {
                   to="/blog"
                   className="text-primary-foreground/80 hover:text-accent transition-colors"
                 >
-                  Da'wah Articles
+                  Artikel Dakwah
                 </Link>
               </li>
               <li>
@@ -60,7 +60,7 @@ const Footer = () => {
                   to="/#about"
                   className="text-primary-foreground/80 hover:text-accent transition-colors"
                 >
-                  About JAMAS
+                  Tentang JAMAS
                 </Link>
               </li>
               <li>
@@ -68,7 +68,7 @@ const Footer = () => {
                   to="/#activities"
                   className="text-primary-foreground/80 hover:text-accent transition-colors"
                 >
-                  Our Activities
+                  Kegiatan Kami
                 </Link>
               </li>
               <li>
@@ -76,7 +76,7 @@ const Footer = () => {
                   to="/admin/login"
                   className="text-primary-foreground/80 hover:text-accent transition-colors"
                 >
-                  Admin Portal
+                  Portal Admin
                 </Link>
               </li>
             </ul>
@@ -86,14 +86,14 @@ const Footer = () => {
           <div>
             <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
               <span className="w-8 h-1 bg-accent rounded-full"></span>
-              Location
+              Lokasi
             </h3>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin size={20} className="text-accent mt-1 flex-shrink-0" />
                 <span className="text-primary-foreground/80">
-                  School Mosque, Building A<br />
-                  Jl. Education No. 123<br />
+                  Masjid Sekolah, Gedung A<br />
+                  Jl. Pendidikan No. 123<br />
                   Jakarta, Indonesia
                 </span>
               </li>
@@ -122,7 +122,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-primary-foreground/20 text-center">
           <p className="text-primary-foreground/60">
-            © {new Date().getFullYear()} JAMAS - School Mosque Congregation. All rights reserved.
+            © {new Date().getFullYear()} JAMAS - Jamaah Masjid Sekolah. Hak Cipta Dilindungi.
           </p>
         </div>
       </div>

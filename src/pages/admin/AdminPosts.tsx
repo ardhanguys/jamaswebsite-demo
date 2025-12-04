@@ -56,12 +56,12 @@ const AdminPosts = () => {
   };
 
   const handleDeletePost = (id: string) => {
-    if (window.confirm("Are you sure you want to delete this post?")) {
+    if (window.confirm("Apakah Anda yakin ingin menghapus postingan ini?")) {
       deletePost(id);
       loadPosts();
       toast({
-        title: "Post deleted",
-        description: "The post has been successfully deleted."
+        title: "Postingan dihapus",
+        description: "Postingan telah berhasil dihapus."
       });
     }
   };
@@ -84,7 +84,7 @@ const AdminPosts = () => {
     if (!editingPost?.title || !editingPost?.content) {
       toast({
         title: "Error",
-        description: "Please fill in all required fields.",
+        description: "Mohon isi semua field yang wajib diisi.",
         variant: "destructive"
       });
       return;
@@ -102,14 +102,14 @@ const AdminPosts = () => {
     if (editingPost.id) {
       updatePost(editingPost.id, postData);
       toast({
-        title: "Post updated",
-        description: "The post has been successfully updated."
+        title: "Postingan diperbarui",
+        description: "Postingan telah berhasil diperbarui."
       });
     } else {
       addPost(postData);
       toast({
-        title: "Post created",
-        description: "The post has been successfully created."
+        title: "Postingan dibuat",
+        description: "Postingan telah berhasil dibuat."
       });
     }
 
@@ -119,7 +119,7 @@ const AdminPosts = () => {
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
+    return new Date(dateString).toLocaleDateString("id-ID", {
       year: "numeric",
       month: "short",
       day: "numeric"
@@ -129,7 +129,7 @@ const AdminPosts = () => {
   return (
     <>
       <Helmet>
-        <title>Manage Posts - JAMAS Admin</title>
+        <title>Kelola Postingan - JAMAS Admin</title>
       </Helmet>
       <div className="min-h-screen bg-cream">
         {/* Header */}
@@ -146,7 +146,7 @@ const AdminPosts = () => {
               className="flex items-center gap-2 px-4 py-2 bg-primary-foreground/10 hover:bg-primary-foreground/20 rounded-lg transition-colors"
             >
               <LogOut size={18} />
-              <span className="hidden sm:inline">Logout</span>
+              <span className="hidden sm:inline">Keluar</span>
             </button>
           </div>
         </header>
@@ -160,7 +160,7 @@ const AdminPosts = () => {
               className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
             >
               <ArrowLeft size={18} />
-              Back to Dashboard
+              Kembali ke Dashboard
             </button>
           </div>
 
@@ -169,15 +169,15 @@ const AdminPosts = () => {
               {/* Page Header */}
               <div className="flex items-center justify-between mb-8">
                 <div>
-                  <h1 className="text-3xl font-bold text-primary mb-2">Manage Posts</h1>
-                  <p className="text-muted-foreground">{posts.length} posts total</p>
+                  <h1 className="text-3xl font-bold text-primary mb-2">Kelola Postingan</h1>
+                  <p className="text-muted-foreground">{posts.length} total postingan</p>
                 </div>
                 <button
                   onClick={handleNewPost}
                   className="btn-primary flex items-center gap-2"
                 >
                   <Plus size={18} />
-                  New Post
+                  Postingan Baru
                 </button>
               </div>
 
@@ -185,13 +185,13 @@ const AdminPosts = () => {
               <div className="bg-background rounded-xl shadow-elegant overflow-hidden">
                 {posts.length === 0 ? (
                   <div className="p-12 text-center">
-                    <p className="text-muted-foreground mb-4">No posts yet.</p>
+                    <p className="text-muted-foreground mb-4">Belum ada postingan.</p>
                     <button
                       onClick={handleNewPost}
                       className="btn-accent inline-flex items-center gap-2"
                     >
                       <Plus size={18} />
-                      Create your first post
+                      Buat postingan pertama
                     </button>
                   </div>
                 ) : (
@@ -199,10 +199,10 @@ const AdminPosts = () => {
                     <table className="w-full">
                       <thead className="bg-cream">
                         <tr>
-                          <th className="text-left px-6 py-4 text-sm font-semibold text-primary">Title</th>
-                          <th className="text-left px-6 py-4 text-sm font-semibold text-primary">Category</th>
-                          <th className="text-left px-6 py-4 text-sm font-semibold text-primary">Date</th>
-                          <th className="text-right px-6 py-4 text-sm font-semibold text-primary">Actions</th>
+                          <th className="text-left px-6 py-4 text-sm font-semibold text-primary">Judul</th>
+                          <th className="text-left px-6 py-4 text-sm font-semibold text-primary">Kategori</th>
+                          <th className="text-left px-6 py-4 text-sm font-semibold text-primary">Tanggal</th>
+                          <th className="text-right px-6 py-4 text-sm font-semibold text-primary">Aksi</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-border">
@@ -244,7 +244,7 @@ const AdminPosts = () => {
                                 <button
                                   onClick={() => handleDeletePost(post.id)}
                                   className="p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-lg transition-colors"
-                                  title="Delete"
+                                  title="Hapus"
                                 >
                                   <Trash2 size={18} />
                                 </button>
@@ -263,7 +263,7 @@ const AdminPosts = () => {
             <div className="bg-background rounded-xl shadow-elegant p-8">
               <div className="flex items-center justify-between mb-8">
                 <h2 className="text-2xl font-bold text-primary">
-                  {editingPost?.id ? "Edit Post" : "Create New Post"}
+                  {editingPost?.id ? "Edit Postingan" : "Buat Postingan Baru"}
                 </h2>
                 <button
                   onClick={() => {
@@ -280,14 +280,14 @@ const AdminPosts = () => {
                 {/* Title */}
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">
-                    Title <span className="text-destructive">*</span>
+                    Judul <span className="text-destructive">*</span>
                   </label>
                   <input
                     type="text"
                     value={editingPost?.title || ""}
                     onChange={(e) => setEditingPost(prev => ({ ...prev, title: e.target.value }))}
                     className="w-full px-4 py-3 bg-cream border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
-                    placeholder="Enter post title"
+                    placeholder="Masukkan judul postingan"
                   />
                 </div>
 
@@ -295,21 +295,21 @@ const AdminPosts = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
-                      Category
+                      Kategori
                     </label>
                     <select
                       value={editingPost?.category || "study"}
                       onChange={(e) => setEditingPost(prev => ({ ...prev, category: e.target.value as Post["category"] }))}
                       className="w-full px-4 py-3 bg-cream border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
                     >
-                      <option value="study">Islamic Study</option>
-                      <option value="dakwah">Da'wah</option>
-                      <option value="activity">Activity Info</option>
+                      <option value="study">Kajian Islam</option>
+                      <option value="dakwah">Dakwah</option>
+                      <option value="activity">Info Kegiatan</option>
                     </select>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
-                      Date
+                      Tanggal
                     </label>
                     <input
                       type="date"
@@ -330,7 +330,7 @@ const AdminPosts = () => {
                       <div className="relative">
                         <img
                           src={editingPost.thumbnail}
-                          alt="Thumbnail preview"
+                          alt="Preview thumbnail"
                           className="w-32 h-24 object-cover rounded-lg"
                         />
                         <button
@@ -343,7 +343,7 @@ const AdminPosts = () => {
                     ) : (
                       <label className="w-32 h-24 border-2 border-dashed border-border rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-accent transition-colors">
                         <Upload size={20} className="text-muted-foreground mb-1" />
-                        <span className="text-xs text-muted-foreground">Upload</span>
+                        <span className="text-xs text-muted-foreground">Unggah</span>
                         <input
                           type="file"
                           accept="image/*"
@@ -358,31 +358,31 @@ const AdminPosts = () => {
                 {/* Excerpt */}
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">
-                    Excerpt
+                    Ringkasan
                   </label>
                   <textarea
                     value={editingPost?.excerpt || ""}
                     onChange={(e) => setEditingPost(prev => ({ ...prev, excerpt: e.target.value }))}
                     className="w-full px-4 py-3 bg-cream border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent resize-none"
                     rows={2}
-                    placeholder="Brief summary (auto-generated if left empty)"
+                    placeholder="Ringkasan singkat (otomatis jika dikosongkan)"
                   />
                 </div>
 
                 {/* Content */}
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">
-                    Content <span className="text-destructive">*</span>
+                    Konten <span className="text-destructive">*</span>
                   </label>
                   <textarea
                     value={editingPost?.content || ""}
                     onChange={(e) => setEditingPost(prev => ({ ...prev, content: e.target.value }))}
                     className="w-full px-4 py-3 bg-cream border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent resize-none font-mono text-sm"
                     rows={12}
-                    placeholder="Write your content here. You can use HTML tags for formatting."
+                    placeholder="Tulis konten Anda di sini. Anda dapat menggunakan tag HTML untuk formatting."
                   />
                   <p className="text-xs text-muted-foreground mt-2">
-                    Tip: You can use HTML tags like &lt;p&gt;, &lt;h3&gt;, &lt;ul&gt;, &lt;li&gt; for formatting.
+                    Tips: Anda dapat menggunakan tag HTML seperti &lt;p&gt;, &lt;h3&gt;, &lt;ul&gt;, &lt;li&gt; untuk formatting.
                   </p>
                 </div>
 
@@ -395,14 +395,14 @@ const AdminPosts = () => {
                     }}
                     className="px-6 py-2 text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    Cancel
+                    Batal
                   </button>
                   <button
                     onClick={handleSavePost}
                     className="btn-primary flex items-center gap-2"
                   >
                     <Save size={18} />
-                    {editingPost?.id ? "Update Post" : "Create Post"}
+                    {editingPost?.id ? "Perbarui Postingan" : "Buat Postingan"}
                   </button>
                 </div>
               </div>

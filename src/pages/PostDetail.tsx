@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { ArrowLeft, Calendar, Tag } from "lucide-react";
+import { ArrowLeft, Calendar } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getPostById, Post, getCategoryLabel, getCategoryColor } from "@/lib/posts";
@@ -23,7 +23,7 @@ const PostDetail = () => {
   }, [id, navigate]);
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
+    return new Date(dateString).toLocaleDateString("id-ID", {
       year: "numeric",
       month: "long",
       day: "numeric"
@@ -33,7 +33,7 @@ const PostDetail = () => {
   if (!post) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse text-primary">Loading...</div>
+        <div className="animate-pulse text-primary">Memuat...</div>
       </div>
     );
   }
@@ -54,7 +54,7 @@ const PostDetail = () => {
               className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors mb-8"
             >
               <ArrowLeft size={18} />
-              Back to All Posts
+              Kembali ke Semua Postingan
             </Link>
 
             {/* Hero Image */}
@@ -103,7 +103,7 @@ const PostDetail = () => {
                 className="btn-primary inline-flex items-center gap-2"
               >
                 <ArrowLeft size={18} />
-                Back to All Posts
+                Kembali ke Semua Postingan
               </Link>
             </div>
           </article>
