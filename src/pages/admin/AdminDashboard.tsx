@@ -50,9 +50,7 @@ const AdminDashboard = () => {
         <header className="bg-primary text-primary-foreground shadow-elegant">
           <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center">
-                <span className="text-accent-foreground font-bold">J</span>
-              </div>
+              <img src="/logo-jamas.png" alt="JAMAS Logo" className="w-10 h-10 object-contain" />
               <span className="font-bold text-xl">JAMAS Admin</span>
             </div>
             <button
