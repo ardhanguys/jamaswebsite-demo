@@ -28,7 +28,7 @@ const HeroSection = () => {
         {/* Badge */}
         <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full mb-8 animate-fade-in">
           <Star size={16} className="text-accent" />
-          <span className="text-sm font-medium text-primary">School Mosque Congregation</span>
+          <span className="text-sm font-medium text-primary">Jamaah Masjid Sekolah</span>
         </div>
 
         {/* Main Title */}
@@ -37,8 +37,8 @@ const HeroSection = () => {
         </h1>
         
         <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-8 animate-slide-up stagger-1">
-          Uniting students through faith, knowledge, and community service.
-          Building a generation of young Muslims with strong character.
+          Menyatukan siswa melalui iman, ilmu, dan pelayanan kepada masyarakat.
+          Membangun generasi muda Muslim yang berkarakter kuat.
         </p>
 
         {/* CTA Buttons */}
@@ -47,14 +47,14 @@ const HeroSection = () => {
             to="/blog"
             className="btn-primary inline-flex items-center gap-2 group"
           >
-            See Da'wah
+            Lihat Dakwah
             <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
           </Link>
           <Link
             to="/#about"
             className="btn-outline"
           >
-            Learn More
+            Pelajari Lebih Lanjut
           </Link>
         </div>
 
@@ -62,15 +62,15 @@ const HeroSection = () => {
         <div className="grid grid-cols-3 gap-8 max-w-lg mx-auto mt-16 animate-fade-in stagger-3">
           <div className="text-center">
             <p className="text-3xl md:text-4xl font-bold text-primary">100+</p>
-            <p className="text-sm text-muted-foreground">Active Members</p>
+            <p className="text-sm text-muted-foreground">Anggota Aktif</p>
           </div>
           <div className="text-center">
             <p className="text-3xl md:text-4xl font-bold text-primary">50+</p>
-            <p className="text-sm text-muted-foreground">Activities/Year</p>
+            <p className="text-sm text-muted-foreground">Kegiatan/Tahun</p>
           </div>
           <div className="text-center">
             <p className="text-3xl md:text-4xl font-bold text-primary">5</p>
-            <p className="text-sm text-muted-foreground">Daily Prayers</p>
+            <p className="text-sm text-muted-foreground">Waktu Sholat</p>
           </div>
         </div>
       </div>

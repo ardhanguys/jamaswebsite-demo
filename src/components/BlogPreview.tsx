@@ -11,7 +11,7 @@ const BlogPreview = () => {
   }, []);
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
+    return new Date(dateString).toLocaleDateString("id-ID", {
       year: "numeric",
       month: "long",
       day: "numeric"
@@ -25,17 +25,17 @@ const BlogPreview = () => {
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div>
             <span className="inline-block px-4 py-1 bg-accent/20 text-accent rounded-full text-sm font-medium mb-4">
-              Da'wah & Activities
+              Dakwah & Kegiatan
             </span>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary">
-              Latest Posts
+              Postingan Terbaru
             </h2>
           </div>
           <Link
             to="/blog"
             className="inline-flex items-center gap-2 text-primary font-medium hover:text-accent transition-colors group"
           >
-            View All Posts
+            Lihat Semua Postingan
             <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
@@ -85,7 +85,7 @@ const BlogPreview = () => {
                   to={`/post/${post.id}`}
                   className="inline-flex items-center gap-2 text-primary font-medium hover:text-accent transition-colors group/link"
                 >
-                  Read More
+                  Baca Selengkapnya
                   <ArrowRight size={16} className="transition-transform group-hover/link:translate-x-1" />
                 </Link>
               </div>
@@ -95,7 +95,7 @@ const BlogPreview = () => {
 
         {posts.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-muted-foreground">No posts available yet. Check back soon!</p>
+            <p className="text-muted-foreground">Belum ada postingan. Kembali lagi nanti!</p>
           </div>
         )}
       </div>

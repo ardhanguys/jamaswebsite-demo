@@ -27,7 +27,7 @@ const AdminLogin = () => {
       if (login(username, password)) {
         navigate("/admin/dashboard");
       } else {
-        setError("Invalid username or password");
+        setError("Username atau password salah");
       }
       setIsLoading(false);
     }, 500);
@@ -36,7 +36,7 @@ const AdminLogin = () => {
   return (
     <>
       <Helmet>
-        <title>Admin Login - JAMAS</title>
+        <title>Login Admin - JAMAS</title>
       </Helmet>
       <div className="min-h-screen bg-cream flex items-center justify-center p-4">
         <div className="w-full max-w-md">
@@ -46,7 +46,7 @@ const AdminLogin = () => {
               <span className="text-primary-foreground font-bold text-2xl">J</span>
             </div>
             <h1 className="text-2xl font-bold text-primary">JAMAS Admin</h1>
-            <p className="text-muted-foreground mt-2">Sign in to manage your content</p>
+            <p className="text-muted-foreground mt-2">Masuk untuk mengelola konten</p>
           </div>
 
           {/* Login Form */}
@@ -71,7 +71,7 @@ const AdminLogin = () => {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     className="w-full pl-12 pr-4 py-3 bg-cream border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
-                    placeholder="Enter username"
+                    placeholder="Masukkan username"
                     required
                   />
                 </div>
@@ -89,7 +89,7 @@ const AdminLogin = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="w-full pl-12 pr-4 py-3 bg-cream border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
-                    placeholder="Enter password"
+                    placeholder="Masukkan password"
                     required
                   />
                 </div>
@@ -101,14 +101,14 @@ const AdminLogin = () => {
               disabled={isLoading}
               className="w-full btn-primary mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLoading ? "Signing in..." : "Sign In"}
+              {isLoading ? "Sedang masuk..." : "Masuk"}
             </button>
           </form>
 
           {/* Back Link */}
           <p className="text-center mt-6">
             <a href="/" className="text-muted-foreground hover:text-primary transition-colors">
-              ← Back to Website
+              ← Kembali ke Website
             </a>
           </p>
         </div>

@@ -13,55 +13,55 @@ const STORAGE_KEY = "jamas_posts";
 const defaultPosts: Post[] = [
   {
     id: "1",
-    title: "The Importance of Daily Prayers",
-    content: `<p>Prayer is the foundation of a Muslim's faith. It is a direct connection between the worshipper and Allah SWT.</p>
-    <p>In our busy lives as students, it's easy to forget the importance of maintaining our five daily prayers. However, these prayers serve as anchors throughout our day, reminding us of our purpose and keeping us grounded.</p>
-    <h3>Benefits of Consistent Prayer</h3>
+    title: "Pentingnya Sholat Lima Waktu",
+    content: `<p>Sholat adalah tiang agama seorang Muslim. Ia merupakan hubungan langsung antara hamba dengan Allah SWT.</p>
+    <p>Dalam kesibukan kita sebagai pelajar, mudah untuk melupakan pentingnya menjaga lima waktu sholat. Namun, sholat-sholat ini berfungsi sebagai jangkar sepanjang hari kita, mengingatkan kita akan tujuan hidup dan menjaga kita tetap berpijak pada tanah.</p>
+    <h3>Manfaat Sholat yang Konsisten</h3>
     <ul>
-      <li>Spiritual cleansing and peace of mind</li>
-      <li>Time management and discipline</li>
-      <li>Community bonding during congregational prayers</li>
-      <li>Physical health through the movements of prayer</li>
+      <li>Pembersihan spiritual dan ketenangan pikiran</li>
+      <li>Manajemen waktu dan disiplin</li>
+      <li>Ikatan persaudaraan saat sholat berjamaah</li>
+      <li>Kesehatan fisik melalui gerakan-gerakan sholat</li>
     </ul>
-    <p>JAMAS encourages all members to prioritize their prayers and join our daily congregational prayers at the school mosque.</p>`,
+    <p>JAMAS mengajak semua anggota untuk memprioritaskan sholat dan bergabung dalam sholat berjamaah di masjid sekolah.</p>`,
     thumbnail: "",
     category: "study",
     date: "2024-01-15",
-    excerpt: "Prayer is the foundation of a Muslim's faith. It is a direct connection between the worshipper and Allah SWT."
+    excerpt: "Sholat adalah tiang agama seorang Muslim. Ia merupakan hubungan langsung antara hamba dengan Allah SWT."
   },
   {
     id: "2",
-    title: "Weekly Islamic Study Circle",
-    content: `<p>Join us every Friday after Jumu'ah prayer for our weekly Islamic study circle where we explore the beautiful teachings of Islam.</p>
-    <p>This week's topic: Understanding the 99 Names of Allah and how they apply to our daily lives.</p>
-    <h3>What to Expect</h3>
+    title: "Kajian Islam Mingguan",
+    content: `<p>Bergabunglah bersama kami setiap Jumat setelah sholat Jumat untuk kajian Islam mingguan di mana kita mempelajari ajaran-ajaran indah Islam.</p>
+    <p>Topik minggu ini: Memahami 99 Nama Allah dan bagaimana penerapannya dalam kehidupan sehari-hari.</p>
+    <h3>Apa yang Diharapkan</h3>
     <ul>
-      <li>Interactive discussions led by senior members</li>
-      <li>Q&A sessions with our school's Islamic teacher</li>
-      <li>Light refreshments provided</li>
-      <li>Certificate of participation for active members</li>
+      <li>Diskusi interaktif dipimpin oleh anggota senior</li>
+      <li>Sesi tanya jawab dengan guru agama sekolah</li>
+      <li>Disediakan makanan ringan</li>
+      <li>Sertifikat kehadiran untuk anggota aktif</li>
     </ul>`,
     thumbnail: "",
     category: "dakwah",
     date: "2024-01-20",
-    excerpt: "Join us every Friday after Jumu'ah prayer for our weekly Islamic study circle."
+    excerpt: "Bergabunglah bersama kami setiap Jumat setelah sholat Jumat untuk kajian Islam mingguan."
   },
   {
     id: "3",
-    title: "Upcoming: School Mosque Cleaning Day",
-    content: `<p>As part of our commitment to maintaining our sacred space, JAMAS is organizing a mosque cleaning day this Saturday.</p>
-    <p>All members are encouraged to participate in this blessed activity. The Prophet Muhammad (peace be upon him) said: "Cleanliness is half of faith."</p>
-    <h3>Schedule</h3>
+    title: "Akan Datang: Hari Bersih-Bersih Masjid Sekolah",
+    content: `<p>Sebagai bagian dari komitmen kami untuk menjaga tempat suci kita, JAMAS mengadakan hari bersih-bersih masjid Sabtu ini.</p>
+    <p>Semua anggota diajak untuk berpartisipasi dalam kegiatan berkah ini. Rasulullah SAW bersabda: "Kebersihan adalah sebagian dari iman."</p>
+    <h3>Jadwal</h3>
     <ul>
-      <li>8:00 AM - Gathering and task assignment</li>
-      <li>8:30 AM - Cleaning begins</li>
-      <li>11:00 AM - Break and refreshments</li>
-      <li>12:00 PM - Dhuhr prayer together</li>
+      <li>08:00 - Berkumpul dan pembagian tugas</li>
+      <li>08:30 - Bersih-bersih dimulai</li>
+      <li>11:00 - Istirahat dan makanan ringan</li>
+      <li>12:00 - Sholat Dzuhur berjamaah</li>
     </ul>`,
     thumbnail: "",
     category: "activity",
     date: "2024-01-25",
-    excerpt: "Join us for the school mosque cleaning day and earn countless rewards."
+    excerpt: "Bergabunglah dalam hari bersih-bersih masjid sekolah dan raih pahala yang berlimpah."
   }
 ];
 
@@ -119,9 +119,9 @@ export const deletePost = (id: string): boolean => {
 
 export const getCategoryLabel = (category: string): string => {
   const labels: Record<string, string> = {
-    study: "Islamic Study",
-    dakwah: "Da'wah",
-    activity: "Activity Info"
+    study: "Kajian Islam",
+    dakwah: "Dakwah",
+    activity: "Info Kegiatan"
   };
   return labels[category] || category;
 };

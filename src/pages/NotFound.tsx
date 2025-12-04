@@ -25,10 +25,10 @@ const NotFound = () => {
         </div>
 
         <h2 className="text-2xl md:text-3xl font-bold text-primary mb-4">
-          Page Not Found
+          Halaman Tidak Ditemukan
         </h2>
         <p className="text-muted-foreground mb-8">
-          Oops! The page you're looking for doesn't exist or has been moved.
+          Oops! Halaman yang Anda cari tidak ada atau telah dipindahkan.
         </p>
 
         {/* Action Buttons */}
@@ -38,14 +38,14 @@ const NotFound = () => {
             className="btn-primary inline-flex items-center justify-center gap-2"
           >
             <Home size={18} />
-            Go Home
+            Ke Beranda
           </Link>
           <button
             onClick={() => window.history.back()}
             className="btn-outline inline-flex items-center justify-center gap-2"
           >
             <ArrowLeft size={18} />
-            Go Back
+            Kembali
           </button>
         </div>
       </div>
