@@ -4,7 +4,8 @@ const features = [
   {
     icon: Target,
     title: "Visi Kami",
-    description: "Membentuk generasi muda yang kreatif, bersolidaritas tinggi, berakhlak mulia, bertaqwa, memiliki rasa cinta dan memakmurkan Masjid."
+    description: "Membentuk generasi muda yang kreatif, bersolidaritas tinggi, berakhlak mulia, bertaqwa, memiliki rasa cinta dan memakmurkan Masjid.",
+    isWide: true
   },
   {
     icon: Eye,
@@ -67,7 +68,7 @@ const AboutSection = () => {
           {features.map((feature, index) => (
             <div
               key={index}
-              className={`group p-8 bg-cream rounded-2xl hover:bg-primary transition-all duration-500 hover:shadow-elegant-lg ${feature.isList ? 'md:col-span-2 lg:col-span-2' : ''}`}
+              className={`group p-8 bg-cream rounded-2xl hover:bg-primary transition-all duration-500 hover:shadow-elegant-lg ${feature.isList || feature.isWide ? 'md:col-span-2 lg:col-span-2' : ''}`}
             >
               <div className="w-14 h-14 rounded-xl bg-primary/10 group-hover:bg-accent flex items-center justify-center mb-6 transition-all duration-500">
                 <feature.icon className="w-7 h-7 text-primary group-hover:text-accent-foreground transition-colors duration-500" />
