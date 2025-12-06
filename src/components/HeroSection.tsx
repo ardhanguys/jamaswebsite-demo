@@ -28,7 +28,7 @@ const HeroSection = () => {
         {/* Badge */}
         <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full mb-8 animate-fade-in">
           <Star size={16} className="text-accent" />
-          <span className="text-sm font-medium text-primary">Jamaah Masjid Sekolah</span>
+          <span className="text-sm font-medium text-primary">JAMAS Matsanewa</span>
         </div>
 
         {/* Main Title */}
