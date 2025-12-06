@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Facebook, Instagram, Youtube, MapPin, Mail, Phone } from "lucide-react";
+import { Instagram, Youtube, MapPin, Mail } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -17,21 +17,18 @@ const Footer = () => {
             </p>
             <div className="flex gap-4">
               <a
-                href="#"
-                className="w-10 h-10 rounded-full bg-primary-foreground/10 hover:bg-accent hover:text-accent-foreground flex items-center justify-center transition-all duration-300"
-                aria-label="Facebook"
-              >
-                <Facebook size={20} />
-              </a>
-              <a
-                href="#"
+                href="https://www.instagram.com/jamas_matsanewa/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-primary-foreground/10 hover:bg-accent hover:text-accent-foreground flex items-center justify-center transition-all duration-300"
                 aria-label="Instagram"
               >
                 <Instagram size={20} />
               </a>
               <a
-                href="#"
+                href="https://www.youtube.com/@JAMASMatsanewa"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-primary-foreground/10 hover:bg-accent hover:text-accent-foreground flex items-center justify-center transition-all duration-300"
                 aria-label="Youtube"
               >
@@ -92,27 +89,17 @@ const Footer = () => {
               <li className="flex items-start gap-3">
                 <MapPin size={20} className="text-accent mt-1 flex-shrink-0" />
                 <span className="text-primary-foreground/80">
-                  Masjid Sekolah, Gedung A<br />
-                  Jl. Pendidikan No. 123<br />
-                  Jakarta, Indonesia
+                  Masjid Al Fajr<br />
+                  MTsN 1 Kota Malang
                 </span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail size={20} className="text-accent flex-shrink-0" />
                 <a
-                  href="mailto:jamas@school.edu"
+                  href="mailto:remajamasjid.matsanewa@gmail.com"
                   className="text-primary-foreground/80 hover:text-accent transition-colors"
                 >
-                  jamas@school.edu
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <Phone size={20} className="text-accent flex-shrink-0" />
-                <a
-                  href="tel:+62123456789"
-                  className="text-primary-foreground/80 hover:text-accent transition-colors"
-                >
-                  +62 123 456 789
+                  remajamasjid.matsanewa@gmail.com
                 </a>
               </li>
             </ul>
