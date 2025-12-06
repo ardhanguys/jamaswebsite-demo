@@ -9,7 +9,18 @@ const features = [
   {
     icon: Eye,
     title: "Misi Kami",
-    description: "1. Mencetak Remaja yang berkualitas, beriman dan bertaqwa kepada Allah SWT. 2. Menumbuhkan sikap disiplin siswa MTsN agar sholat tepat waktu. 3. Meningkatkan kemampuan bekerja dan latihan keorganisasian Remaja Masjid. 4. Melatih kerjasama Pengurus JAMAS dibawah bimbingan para Guru pembina. 5. Kaderisasi terencana guna melanjutkan Organisasi. 6. Pengadaan kegiatan yang terorientasi pada pembinaan remaja islam dan memiliki nilai positif. 7. Mengusahakan pengurus setiap divisi bekerja dengan baik dan professional. 8. Membina hubungan silaturahim yang baik antar anggota, pembina, guru, maupun siswa MTsN 1 Kota Malang."
+    description: "",
+    isList: true,
+    listItems: [
+      "Mencetak Remaja yang berkualitas, beriman dan bertaqwa kepada Allah SWT",
+      "Menumbuhkan sikap disiplin siswa MTsN agar sholat tepat waktu",
+      "Meningkatkan kemampuan bekerja dan latihan keorganisasian Remaja Masjid",
+      "Melatih kerjasama Pengurus JAMAS dibawah bimbingan para Guru pembina",
+      "Kaderisasi terencana guna melanjutkan Organisasi",
+      "Pengadaan kegiatan yang terorientasi pada pembinaan remaja islam dan memiliki nilai positif",
+      "Mengusahakan pengurus setiap divisi bekerja dengan baik dan professional",
+      "Membina hubungan silaturahim yang baik antar anggota, pembina, guru, maupun siswa MTsN 1 Kota Malang"
+    ]
   },
   {
     icon: BookOpen,
@@ -56,7 +67,7 @@ const AboutSection = () => {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="group p-8 bg-cream rounded-2xl hover:bg-primary transition-all duration-500 hover:shadow-elegant-lg"
+              className={`group p-8 bg-cream rounded-2xl hover:bg-primary transition-all duration-500 hover:shadow-elegant-lg ${feature.isList ? 'md:col-span-2 lg:col-span-2' : ''}`}
             >
               <div className="w-14 h-14 rounded-xl bg-primary/10 group-hover:bg-accent flex items-center justify-center mb-6 transition-all duration-500">
                 <feature.icon className="w-7 h-7 text-primary group-hover:text-accent-foreground transition-colors duration-500" />
@@ -64,9 +75,17 @@ const AboutSection = () => {
               <h3 className="text-xl font-semibold text-primary group-hover:text-primary-foreground mb-3 transition-colors duration-500">
                 {feature.title}
               </h3>
-              <p className="text-muted-foreground group-hover:text-primary-foreground/80 transition-colors duration-500">
-                {feature.description}
-              </p>
+              {feature.isList && feature.listItems ? (
+                <ol className="list-decimal list-inside space-y-2 text-muted-foreground group-hover:text-primary-foreground/80 transition-colors duration-500">
+                  {feature.listItems.map((item, idx) => (
+                    <li key={idx} className="text-sm leading-relaxed">{item}</li>
+                  ))}
+                </ol>
+              ) : (
+                <p className="text-muted-foreground group-hover:text-primary-foreground/80 transition-colors duration-500">
+                  {feature.description}
+                </p>
+              )}
             </div>
           ))}
         </div>
