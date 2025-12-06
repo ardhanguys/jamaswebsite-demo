@@ -4,12 +4,12 @@ const features = [
   {
     icon: Target,
     title: "Visi Kami",
-    description: "Menjadi organisasi jamaah masjid sekolah terdepan yang membina generasi muda Muslim dengan iman yang kuat, akhlak mulia, dan prestasi akademik yang unggul."
+    description: "Membentuk generasi muda yang kreatif, bersolidaritas tinggi, berakhlak mulia, bertaqwa, memiliki rasa cinta dan memakmurkan Masjid."
   },
   {
     icon: Eye,
     title: "Misi Kami",
-    description: "Memfasilitasi pendidikan Islam, memperkuat ukhuwah antar siswa, dan berkontribusi kepada komunitas sekolah melalui program-program bermanfaat."
+    description: "1. Mencetak Remaja yang berkualitas, beriman dan bertaqwa kepada Allah SWT. 2. Menumbuhkan sikap disiplin siswa MTsN agar sholat tepat waktu. 3. Meningkatkan kemampuan bekerja dan latihan keorganisasian Remaja Masjid. 4. Melatih kerjasama Pengurus JAMAS dibawah bimbingan para Guru pembina. 5. Kaderisasi terencana guna melanjutkan Organisasi. 6. Pengadaan kegiatan yang terorientasi pada pembinaan remaja islam dan memiliki nilai positif. 7. Mengusahakan pengurus setiap divisi bekerja dengan baik dan professional. 8. Membina hubungan silaturahim yang baik antar anggota, pembina, guru, maupun siswa MTsN 1 Kota Malang."
   },
   {
     icon: BookOpen,
