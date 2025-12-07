@@ -53,20 +53,24 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/#about"
+                <button
+                  onClick={() => {
+                    document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
                   className="text-primary-foreground/80 hover:text-accent transition-colors"
                 >
                   Tentang JAMAS
-                </Link>
+                </button>
               </li>
               <li>
-                <Link
-                  to="/#activities"
+                <button
+                  onClick={() => {
+                    document.getElementById('activities')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
                   className="text-primary-foreground/80 hover:text-accent transition-colors"
                 >
                   Kegiatan Kami
-                </Link>
+                </button>
               </li>
               <li>
                 <Link
@@ -114,7 +118,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-primary-foreground/20 text-center">
           <p className="text-primary-foreground/60">
-            © {new Date().getFullYear()} JAMAS - Jamaah Masjid Sekolah. Hak Cipta Dilindungi.
+            © {new Date().getFullYear()} JAMAS Matsanewa. Hak Cipta Dilindungi.
           </p>
         </div>
       </div>
