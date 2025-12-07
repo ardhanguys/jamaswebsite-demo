@@ -30,7 +30,7 @@ const features = [
   },
   {
     icon: Users,
-    title: "Ukhuwah",
+    title: "Pendidikan Islam",
     description: "Membangun persahabatan yang langgeng berdasarkan iman, saling mendukung dalam tantangan akademik dan pribadi."
   },
   {
