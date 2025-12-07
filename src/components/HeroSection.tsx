@@ -61,7 +61,7 @@ const HeroSection = () => {
         {/* Stats */}
         <div className="grid grid-cols-3 gap-8 max-w-lg mx-auto mt-16 animate-fade-in stagger-3">
           <div className="text-center">
-            <p className="text-3xl md:text-4xl font-bold text-primary">37</p>
+            <p className="text-3xl md:text-4xl font-bold text-primary">36</p>
             <p className="text-sm text-muted-foreground">Anggota Aktif</p>
           </div>
           <div className="text-center">
