@@ -50,12 +50,14 @@ const HeroSection = () => {
             Lihat Dakwah
             <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
           </Link>
-          <Link
-            to="/#about"
+          <button
+            onClick={() => {
+              document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+            }}
             className="btn-outline"
           >
             Pelajari Lebih Lanjut
-          </Link>
+          </button>
         </div>
 
         {/* Stats */}
