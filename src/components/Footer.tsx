@@ -88,10 +88,15 @@ const Footer = () => {
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin size={20} className="text-accent mt-1 flex-shrink-0" />
-                <span className="text-primary-foreground/80">
+                <a
+                  href="https://maps.app.goo.gl/8diYYJscoifqPd9g9"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary-foreground/80 hover:text-accent transition-colors"
+                >
                   Masjid Al Fajr<br />
                   MTsN 1 Kota Malang
-                </span>
+                </a>
               </li>
               <li className="flex items-center gap-3">
                 <Mail size={20} className="text-accent flex-shrink-0" />
