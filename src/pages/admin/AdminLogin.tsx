@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Lock, User, AlertCircle } from "lucide-react";
 import { login, isAuthenticated } from "@/lib/auth";
@@ -105,9 +105,9 @@ const AdminLogin = () => {
 
           {/* Back Link */}
           <p className="text-center mt-6">
-            <a href="/" className="text-muted-foreground hover:text-primary transition-colors">
+            <Link to="/" className="text-muted-foreground hover:text-primary transition-colors">
               ← Kembali ke Website
-            </a>
+            </Link>
           </p>
         </div>
       </div>
