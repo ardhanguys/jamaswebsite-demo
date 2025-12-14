@@ -6,7 +6,7 @@ import { componentTagger } from "lovable-tagger";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   // Ganti 'NAMA_REPO' dengan nama repository GitHub kamu
-  base: mode === "production" ? "/NAMA_REPO/" : "/",
+  base: mode === "production" ? "/jamaswebsite-demo/" : "/",
   server: {
     host: "::",
     port: 8080,
