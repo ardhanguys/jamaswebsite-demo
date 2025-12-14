@@ -1,4 +1,4 @@
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useEffect } from "react";
 import {
   Bold,
   Italic,
@@ -28,13 +28,32 @@ interface RichTextEditorProps {
 
 const RichTextEditor = ({ value, onChange, placeholder }: RichTextEditorProps) => {
   const editorRef = useRef<HTMLDivElement>(null);
+  const isInitializedRef = useRef(false);
 
-  const execCommand = useCallback((command: string, value?: string) => {
-    document.execCommand(command, false, value);
+  // Set initial value only once on mount
+  useEffect(() => {
+    if (editorRef.current && !isInitializedRef.current) {
+      editorRef.current.innerHTML = value || "";
+      isInitializedRef.current = true;
+    }
+  }, []);
+
+  // Update content when value changes externally (e.g., when editing different post)
+  useEffect(() => {
+    if (editorRef.current && isInitializedRef.current) {
+      const currentContent = editorRef.current.innerHTML;
+      if (value !== currentContent && value === "") {
+        editorRef.current.innerHTML = "";
+      }
+    }
+  }, [value]);
+
+  const execCommand = useCallback((command: string, cmdValue?: string) => {
+    editorRef.current?.focus();
+    document.execCommand(command, false, cmdValue);
     if (editorRef.current) {
       onChange(editorRef.current.innerHTML);
     }
-    editorRef.current?.focus();
   }, [onChange]);
 
   const handleInput = useCallback(() => {
@@ -65,7 +84,10 @@ const RichTextEditor = ({ value, onChange, placeholder }: RichTextEditorProps) =
   }) => (
     <button
       type="button"
-      onClick={onClick}
+      onClick={(e) => {
+        e.preventDefault();
+        onClick();
+      }}
       title={title}
       className="p-2 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg transition-colors"
     >
@@ -163,7 +185,6 @@ const RichTextEditor = ({ value, onChange, placeholder }: RichTextEditorProps) =
         ref={editorRef}
         contentEditable
         onInput={handleInput}
-        dangerouslySetInnerHTML={{ __html: value }}
         className="min-h-[300px] p-4 focus:outline-none prose prose-sm max-w-none
           prose-headings:text-primary prose-headings:font-bold
           prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg
@@ -174,9 +195,7 @@ const RichTextEditor = ({ value, onChange, placeholder }: RichTextEditorProps) =
           prose-ol:list-decimal prose-ol:pl-5
           prose-li:text-foreground"
         data-placeholder={placeholder}
-        style={{
-          minHeight: "300px"
-        }}
+        suppressContentEditableWarning={true}
       />
 
       {/* Empty state placeholder */}
