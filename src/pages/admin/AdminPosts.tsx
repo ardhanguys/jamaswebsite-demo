@@ -5,6 +5,7 @@ import { Plus, Edit2, Trash2, ArrowLeft, X, Upload, Save, LogOut } from "lucide-
 import { isAuthenticated, logout } from "@/lib/auth";
 import { getPosts, addPost, updatePost, deletePost, Post, getCategoryLabel } from "@/lib/posts";
 import { toast } from "@/hooks/use-toast";
+import RichTextEditor from "@/components/RichTextEditor";
 
 const AdminPosts = () => {
   const navigate = useNavigate();
@@ -372,15 +373,13 @@ const AdminPosts = () => {
                   <label className="block text-sm font-medium text-foreground mb-2">
                     Konten <span className="text-destructive">*</span>
                   </label>
-                  <textarea
+                  <RichTextEditor
                     value={editingPost?.content || ""}
-                    onChange={(e) => setEditingPost(prev => ({ ...prev, content: e.target.value }))}
-                    className="w-full px-4 py-3 bg-cream border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent resize-none font-mono text-sm"
-                    rows={12}
-                    placeholder="Tulis konten Anda di sini. Anda dapat menggunakan tag HTML untuk formatting."
+                    onChange={(content) => setEditingPost(prev => ({ ...prev, content }))}
+                    placeholder="Tulis konten postingan di sini..."
                   />
                   <p className="text-xs text-muted-foreground mt-2">
-                    Tips: Anda dapat menggunakan tag HTML seperti &lt;p&gt;, &lt;h3&gt;, &lt;ul&gt;, &lt;li&gt; untuk formatting.
+                    Gunakan toolbar di atas untuk memformat teks dengan mudah.
                   </p>
                 </div>
 
