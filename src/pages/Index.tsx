@@ -9,7 +9,7 @@ const Index = () => {
   return (
     <>
       <Helmet>
-        <title>JAMAS - School Mosque Congregation</title>
+        <title>JAMAS MATSANEWA</title>
         <meta name="description" content="JAMAS (Jamaah Masjid Sekolah) is a student organization dedicated to fostering Islamic values and brotherhood within our school community." />
       </Helmet>
       <div className="min-h-screen">
