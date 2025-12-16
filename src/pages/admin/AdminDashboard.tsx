@@ -147,12 +147,12 @@ const AdminDashboard = () => {
 
           {/* Back to Website Link */}
           <div className="mt-8 text-center">
-            <a
-              href="/"
+            <Link
+              to="/"
               className="text-muted-foreground hover:text-primary transition-colors"
             >
               ← Lihat Website
-            </a>
+            </Link>
           </div>
         </main>
       </div>
