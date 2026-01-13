@@ -7,9 +7,9 @@ import { getPosts, Post } from "@/lib/posts";
 
 const categories = [
   { value: "all", label: "Semua Postingan" },
-  { value: "study", label: "Kajian Islam" },
-  { value: "dakwah", label: "Dakwah" },
-  { value: "activity", label: "Info Kegiatan" }
+  { value: "ilmu", label: "Ilmu & Kajian" },
+  { value: "kegiatan", label: "Kegiatan" },
+  { value: "pengumuman", label: "Pengumuman" }
 ];
 
 const Blog = () => {
@@ -18,6 +18,9 @@ const Blog = () => {
   const [activeCategory, setActiveCategory] = useState("all");
 
   useEffect(() => {
+    // Scroll to top when navigating to this page
+    window.scrollTo(0, 0);
+    
     const allPosts = getPosts().sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );

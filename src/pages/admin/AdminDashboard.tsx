@@ -10,9 +10,9 @@ const AdminDashboard = () => {
   const [stats, setStats] = useState({
     totalPosts: 0,
     categories: {
-      study: 0,
-      dakwah: 0,
-      activity: 0
+      ilmu: 0,
+      kegiatan: 0,
+      pengumuman: 0
     }
   });
 
@@ -24,9 +24,9 @@ const AdminDashboard = () => {
 
     const posts = getPosts();
     const categoryCount = {
-      study: posts.filter(p => p.category === "study").length,
-      dakwah: posts.filter(p => p.category === "dakwah").length,
-      activity: posts.filter(p => p.category === "activity").length
+      ilmu: posts.filter(p => p.category === "ilmu").length,
+      kegiatan: posts.filter(p => p.category === "kegiatan").length,
+      pengumuman: posts.filter(p => p.category === "pengumuman").length
     };
 
     setStats({
@@ -95,20 +95,20 @@ const AdminDashboard = () => {
             <div className="bg-background rounded-xl p-6 shadow-elegant">
               <div className="flex items-center justify-between mb-4">
                 <div className="w-12 h-12 rounded-lg bg-green-light/20 flex items-center justify-center">
-                  <span className="text-green-light font-bold">{stats.categories.study}</span>
+                  <span className="text-green-light font-bold">{stats.categories.ilmu}</span>
                 </div>
               </div>
-              <p className="text-lg font-semibold text-primary">Kajian Islam</p>
+              <p className="text-lg font-semibold text-primary">Ilmu & Kajian</p>
               <p className="text-muted-foreground">Postingan</p>
             </div>
 
             <div className="bg-background rounded-xl p-6 shadow-elegant">
               <div className="flex items-center justify-between mb-4">
                 <div className="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center">
-                  <span className="text-accent font-bold">{stats.categories.dakwah}</span>
+                  <span className="text-accent font-bold">{stats.categories.kegiatan}</span>
                 </div>
               </div>
-              <p className="text-lg font-semibold text-primary">Dakwah</p>
+              <p className="text-lg font-semibold text-primary">Kegiatan</p>
               <p className="text-muted-foreground">Postingan</p>
             </div>
           </div>
