@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { Plus, Edit2, Trash2, ArrowLeft, X, Upload, Save, LogOut } from "lucide-react";
+import { Plus, Edit2, Trash2, ArrowLeft, X, Upload, Save, LogOut, Eye } from "lucide-react";
 import { isAuthenticated, logout } from "@/lib/auth";
-import { getPosts, addPost, updatePost, deletePost, Post, getCategoryLabel } from "@/lib/posts";
+import { getPosts, addPost, updatePost, deletePost, Post, getCategoryLabel, getCategoryColor } from "@/lib/posts";
 import { toast } from "@/hooks/use-toast";
 import RichTextEditor from "@/components/RichTextEditor";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const AdminPosts = () => {
   const navigate = useNavigate();
@@ -13,6 +19,8 @@ const AdminPosts = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editingPost, setEditingPost] = useState<Partial<Post> | null>(null);
+  const [previewPost, setPreviewPost] = useState<Partial<Post> | null>(null);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   useEffect(() => {
     if (!isAuthenticated()) {
@@ -232,7 +240,17 @@ const AdminPosts = () => {
                               {formatDate(post.date)}
                             </td>
                             <td className="px-6 py-4">
-                              <div className="flex items-center justify-end gap-2">
+                              <div className="flex items-center justify-end gap-1 sm:gap-2">
+                                <button
+                                  onClick={() => {
+                                    setPreviewPost(post);
+                                    setIsPreviewOpen(true);
+                                  }}
+                                  className="p-2 text-muted-foreground hover:text-accent hover:bg-accent/10 rounded-lg transition-colors"
+                                  title="Preview"
+                                >
+                                  <Eye size={18} />
+                                </button>
                                 <button
                                   onClick={() => handleEditPost(post)}
                                   className="p-2 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg transition-colors"
@@ -384,19 +402,29 @@ const AdminPosts = () => {
                 </div>
 
                 {/* Actions */}
-                <div className="flex items-center justify-end gap-4 pt-4 border-t border-border">
+                <div className="flex flex-col sm:flex-row items-center justify-end gap-3 sm:gap-4 pt-4 border-t border-border">
                   <button
                     onClick={() => {
                       setIsEditing(false);
                       setEditingPost(null);
                     }}
-                    className="px-6 py-2 text-muted-foreground hover:text-foreground transition-colors"
+                    className="w-full sm:w-auto px-6 py-2 text-muted-foreground hover:text-foreground transition-colors order-3 sm:order-1"
                   >
                     Batal
                   </button>
                   <button
+                    onClick={() => {
+                      setPreviewPost(editingPost);
+                      setIsPreviewOpen(true);
+                    }}
+                    className="w-full sm:w-auto btn-accent flex items-center justify-center gap-2 order-2"
+                  >
+                    <Eye size={18} />
+                    Preview
+                  </button>
+                  <button
                     onClick={handleSavePost}
-                    className="btn-primary flex items-center gap-2"
+                    className="w-full sm:w-auto btn-primary flex items-center justify-center gap-2 order-1 sm:order-3"
                   >
                     <Save size={18} />
                     {editingPost?.id ? "Perbarui Postingan" : "Buat Postingan"}
@@ -405,6 +433,63 @@ const AdminPosts = () => {
               </div>
             </div>
           )}
+
+          {/* Preview Modal */}
+          <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
+            <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle className="text-xl text-primary">Preview Postingan</DialogTitle>
+              </DialogHeader>
+              {previewPost && (
+                <div className="mt-4">
+                  {/* Preview Hero Image */}
+                  {previewPost.thumbnail ? (
+                    <div className="aspect-video rounded-xl overflow-hidden mb-6">
+                      <img
+                        src={previewPost.thumbnail}
+                        alt={previewPost.title || "Preview"}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <div className="aspect-video rounded-xl overflow-hidden mb-6 bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
+                      <span className="text-7xl font-bold text-primary/20">
+                        {previewPost.title?.charAt(0) || "?"}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Preview Meta */}
+                  <div className="flex flex-wrap items-center gap-3 mb-4">
+                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${getCategoryColor(previewPost.category || "study")}`}>
+                      {getCategoryLabel(previewPost.category || "study")}
+                    </span>
+                    <span className="text-sm text-muted-foreground">
+                      {previewPost.date ? formatDate(previewPost.date) : "Tanggal belum dipilih"}
+                    </span>
+                  </div>
+
+                  {/* Preview Title */}
+                  <h2 className="text-2xl sm:text-3xl font-bold text-primary mb-4 leading-tight">
+                    {previewPost.title || "Judul belum diisi"}
+                  </h2>
+
+                  {/* Preview Excerpt */}
+                  {previewPost.excerpt && (
+                    <p className="text-muted-foreground italic mb-6 pb-4 border-b border-border">
+                      {previewPost.excerpt}
+                    </p>
+                  )}
+
+                  {/* Preview Content */}
+                  <div
+                    className="prose prose-sm sm:prose-base max-w-none prose-headings:text-primary prose-headings:font-semibold prose-p:text-muted-foreground prose-a:text-accent hover:prose-a:text-primary prose-strong:text-foreground prose-ul:text-muted-foreground prose-li:marker:text-accent"
+                    dangerouslySetInnerHTML={{ __html: previewPost.content || "<p>Konten belum diisi</p>" }}
+                  />
+                </div>
+              )}
+            </DialogContent>
+          </Dialog>
         </main>
       </div>
     </>
