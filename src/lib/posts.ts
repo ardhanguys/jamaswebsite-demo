@@ -3,7 +3,7 @@ export interface Post {
   title: string;
   content: string;
   thumbnail: string;
-  category: "study" | "dakwah" | "activity";
+  category: "ilmu" | "kegiatan" | "pengumuman";
   date: string;
   excerpt: string;
 }
@@ -25,7 +25,7 @@ const defaultPosts: Post[] = [
     </ul>
     <p>JAMAS mengajak semua anggota untuk memprioritaskan sholat dan bergabung dalam sholat berjamaah di masjid sekolah.</p>`,
     thumbnail: "",
-    category: "study",
+    category: "ilmu",
     date: "2024-01-15",
     excerpt: "Sholat adalah tiang agama seorang Muslim. Ia merupakan hubungan langsung antara hamba dengan Allah SWT."
   },
@@ -42,7 +42,7 @@ const defaultPosts: Post[] = [
       <li>Sertifikat kehadiran untuk anggota aktif</li>
     </ul>`,
     thumbnail: "",
-    category: "dakwah",
+    category: "kegiatan",
     date: "2024-01-20",
     excerpt: "Bergabunglah bersama kami setiap Jumat setelah sholat Jumat untuk kajian Islam mingguan."
   },
@@ -59,7 +59,7 @@ const defaultPosts: Post[] = [
       <li>12:00 - Sholat Dzuhur berjamaah</li>
     </ul>`,
     thumbnail: "",
-    category: "activity",
+    category: "pengumuman",
     date: "2024-01-25",
     excerpt: "Bergabunglah dalam hari bersih-bersih masjid sekolah dan raih pahala yang berlimpah."
   }
@@ -119,18 +119,18 @@ export const deletePost = (id: string): boolean => {
 
 export const getCategoryLabel = (category: string): string => {
   const labels: Record<string, string> = {
-    study: "Kajian Islam",
-    dakwah: "Dakwah",
-    activity: "Info Kegiatan"
+    ilmu: "Ilmu & Kajian",
+    kegiatan: "Kegiatan",
+    pengumuman: "Pengumuman"
   };
   return labels[category] || category;
 };
 
 export const getCategoryColor = (category: string): string => {
   const colors: Record<string, string> = {
-    study: "bg-primary text-primary-foreground",
-    dakwah: "bg-accent text-accent-foreground",
-    activity: "bg-green-light text-primary-foreground"
+    ilmu: "bg-primary text-primary-foreground",
+    kegiatan: "bg-accent text-accent-foreground",
+    pengumuman: "bg-green-light text-primary-foreground"
   };
   return colors[category] || "bg-muted text-muted-foreground";
 };

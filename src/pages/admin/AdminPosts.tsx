@@ -53,7 +53,7 @@ const AdminPosts = () => {
       content: "",
       excerpt: "",
       thumbnail: "",
-      category: "study",
+      category: "ilmu",
       date: new Date().toISOString().split("T")[0]
     });
     setIsEditing(true);
@@ -104,7 +104,7 @@ const AdminPosts = () => {
       content: editingPost.content,
       excerpt: editingPost.excerpt || editingPost.content.replace(/<[^>]*>/g, "").substring(0, 150) + "...",
       thumbnail: editingPost.thumbnail || "",
-      category: editingPost.category as "study" | "dakwah" | "activity",
+      category: editingPost.category as "ilmu" | "kegiatan" | "pengumuman",
       date: editingPost.date || new Date().toISOString().split("T")[0]
     };
 
@@ -315,13 +315,13 @@ const AdminPosts = () => {
                       Kategori
                     </label>
                     <select
-                      value={editingPost?.category || "study"}
+                      value={editingPost?.category || "ilmu"}
                       onChange={(e) => setEditingPost(prev => ({ ...prev, category: e.target.value as Post["category"] }))}
                       className="w-full px-4 py-3 bg-cream border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
                     >
-                      <option value="study">Kajian Islam</option>
-                      <option value="dakwah">Dakwah</option>
-                      <option value="activity">Info Kegiatan</option>
+                      <option value="ilmu">Ilmu & Kajian</option>
+                      <option value="kegiatan">Kegiatan</option>
+                      <option value="pengumuman">Pengumuman</option>
                     </select>
                   </div>
                   <div>
