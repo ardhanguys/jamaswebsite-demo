@@ -128,9 +128,9 @@ export const getCategoryLabel = (category: string): string => {
 
 export const getCategoryColor = (category: string): string => {
   const colors: Record<string, string> = {
-    ilmu: "bg-primary text-primary-foreground",
-    kegiatan: "bg-accent text-accent-foreground",
-    pengumuman: "bg-green-light text-primary-foreground"
+    ilmu: "bg-emerald-600 text-white",
+    kegiatan: "bg-amber-500 text-white",
+    pengumuman: "bg-sky-500 text-white"
   };
   return colors[category] || "bg-muted text-muted-foreground";
 };
