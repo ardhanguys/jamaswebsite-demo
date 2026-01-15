@@ -65,10 +65,36 @@ const defaultPosts: Post[] = [
   }
 ];
 
+// Migrate old categories to new ones
+const migrateCategories = (posts: Post[]): Post[] => {
+  const categoryMap: Record<string, "ilmu" | "kegiatan" | "pengumuman"> = {
+    study: "ilmu",
+    dakwah: "ilmu",
+    activity: "kegiatan"
+  };
+  
+  let needsUpdate = false;
+  const migratedPosts = posts.map(post => {
+    const oldCategory = post.category as string;
+    if (categoryMap[oldCategory]) {
+      needsUpdate = true;
+      return { ...post, category: categoryMap[oldCategory] };
+    }
+    return post;
+  });
+  
+  if (needsUpdate) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(migratedPosts));
+  }
+  
+  return migratedPosts;
+};
+
 export const getPosts = (): Post[] => {
   const stored = localStorage.getItem(STORAGE_KEY);
   if (stored) {
-    return JSON.parse(stored);
+    const posts = JSON.parse(stored);
+    return migrateCategories(posts);
   }
   // Initialize with default posts
   localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultPosts));
