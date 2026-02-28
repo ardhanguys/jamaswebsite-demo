@@ -2,43 +2,51 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { FileText, FolderOpen, LogOut, Settings, Plus } from "lucide-react";
-import { isAuthenticated, logout } from "@/lib/auth";
+import { isAdmin, logout } from "@/lib/auth";
 import { getPosts } from "@/lib/posts";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [stats, setStats] = useState({
     totalPosts: 0,
-    categories: {
-      ilmu: 0,
-      kegiatan: 0,
-      pengumuman: 0
-    }
+    categories: { ilmu: 0, kegiatan: 0, pengumuman: 0 }
   });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!isAuthenticated()) {
-      navigate("/admin/login");
-      return;
-    }
+    const checkAuth = async () => {
+      const admin = await isAdmin();
+      if (!admin) {
+        navigate("/admin/login");
+        return;
+      }
 
-    const posts = getPosts();
-    const categoryCount = {
-      ilmu: posts.filter(p => p.category === "ilmu").length,
-      kegiatan: posts.filter(p => p.category === "kegiatan").length,
-      pengumuman: posts.filter(p => p.category === "pengumuman").length
+      const posts = await getPosts();
+      setStats({
+        totalPosts: posts.length,
+        categories: {
+          ilmu: posts.filter(p => p.category === "ilmu").length,
+          kegiatan: posts.filter(p => p.category === "kegiatan").length,
+          pengumuman: posts.filter(p => p.category === "pengumuman").length
+        }
+      });
+      setLoading(false);
     };
-
-    setStats({
-      totalPosts: posts.length,
-      categories: categoryCount
-    });
+    checkAuth();
   }, [navigate]);
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     navigate("/admin/login");
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-cream">
+        <div className="animate-pulse text-primary">Memuat...</div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -46,24 +54,19 @@ const AdminDashboard = () => {
         <title>Dashboard - JAMAS Admin</title>
       </Helmet>
       <div className="min-h-screen bg-cream">
-        {/* Header */}
         <header className="bg-primary text-primary-foreground shadow-elegant">
           <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <img src="/logo-jamas.png" alt="JAMAS Logo" className="w-10 h-10 object-contain" />
               <span className="font-bold text-xl">JAMAS Admin</span>
             </div>
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 px-4 py-2 bg-primary-foreground/10 hover:bg-primary-foreground/20 rounded-lg transition-colors"
-            >
+            <button onClick={handleLogout} className="flex items-center gap-2 px-4 py-2 bg-primary-foreground/10 hover:bg-primary-foreground/20 rounded-lg transition-colors">
               <LogOut size={18} />
               <span className="hidden sm:inline">Keluar</span>
             </button>
           </div>
         </header>
 
-        {/* Main Content */}
         <main className="max-w-7xl mx-auto px-4 py-8">
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-primary mb-2">Dashboard</h1>
@@ -117,10 +120,7 @@ const AdminDashboard = () => {
           <div className="bg-background rounded-xl p-6 shadow-elegant">
             <h2 className="text-xl font-semibold text-primary mb-6">Aksi Cepat</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Link
-                to="/admin/posts"
-                className="flex items-center gap-4 p-4 bg-cream rounded-lg hover:bg-primary hover:text-primary-foreground transition-all group"
-              >
+              <Link to="/admin/posts" className="flex items-center gap-4 p-4 bg-cream rounded-lg hover:bg-primary hover:text-primary-foreground transition-all group">
                 <div className="w-12 h-12 rounded-lg bg-primary/10 group-hover:bg-primary-foreground/20 flex items-center justify-center transition-colors">
                   <Settings className="text-primary group-hover:text-primary-foreground" size={20} />
                 </div>
@@ -130,10 +130,7 @@ const AdminDashboard = () => {
                 </div>
               </Link>
 
-              <Link
-                to="/admin/posts?action=new"
-                className="flex items-center gap-4 p-4 bg-cream rounded-lg hover:bg-accent hover:text-accent-foreground transition-all group"
-              >
+              <Link to="/admin/posts?action=new" className="flex items-center gap-4 p-4 bg-cream rounded-lg hover:bg-accent hover:text-accent-foreground transition-all group">
                 <div className="w-12 h-12 rounded-lg bg-accent/20 group-hover:bg-accent-foreground/20 flex items-center justify-center transition-colors">
                   <Plus className="text-accent group-hover:text-accent-foreground" size={20} />
                 </div>
@@ -145,12 +142,8 @@ const AdminDashboard = () => {
             </div>
           </div>
 
-          {/* Back to Website Link */}
           <div className="mt-8 text-center">
-            <Link
-              to="/"
-              className="text-muted-foreground hover:text-primary transition-colors"
-            >
+            <Link to="/" className="text-muted-foreground hover:text-primary transition-colors">
               ← Lihat Website
             </Link>
           </div>

@@ -1,145 +1,94 @@
+import { supabase } from "@/integrations/supabase/client";
+
 export interface Post {
   id: string;
   title: string;
   content: string;
   thumbnail: string;
   category: "ilmu" | "kegiatan" | "pengumuman";
-  date: string;
+  date: string; // mapped from created_at
   excerpt: string;
 }
 
-const STORAGE_KEY = "jamas_posts";
+// Map DB row to Post interface
+const mapRow = (row: any): Post => ({
+  id: row.id,
+  title: row.title,
+  content: row.content,
+  thumbnail: row.thumbnail || "",
+  category: row.category as Post["category"],
+  date: row.created_at.split("T")[0],
+  excerpt: row.excerpt,
+});
 
-const defaultPosts: Post[] = [
-  {
-    id: "1",
-    title: "Pentingnya Sholat Lima Waktu",
-    content: `<p>Sholat adalah tiang agama seorang Muslim. Ia merupakan hubungan langsung antara hamba dengan Allah SWT.</p>
-    <p>Dalam kesibukan kita sebagai pelajar, mudah untuk melupakan pentingnya menjaga lima waktu sholat. Namun, sholat-sholat ini berfungsi sebagai jangkar sepanjang hari kita, mengingatkan kita akan tujuan hidup dan menjaga kita tetap berpijak pada tanah.</p>
-    <h3>Manfaat Sholat yang Konsisten</h3>
-    <ul>
-      <li>Pembersihan spiritual dan ketenangan pikiran</li>
-      <li>Manajemen waktu dan disiplin</li>
-      <li>Ikatan persaudaraan saat sholat berjamaah</li>
-      <li>Kesehatan fisik melalui gerakan-gerakan sholat</li>
-    </ul>
-    <p>JAMAS mengajak semua anggota untuk memprioritaskan sholat dan bergabung dalam sholat berjamaah di masjid sekolah.</p>`,
-    thumbnail: "",
-    category: "ilmu",
-    date: "2024-01-15",
-    excerpt: "Sholat adalah tiang agama seorang Muslim. Ia merupakan hubungan langsung antara hamba dengan Allah SWT."
-  },
-  {
-    id: "2",
-    title: "Kajian Islam Mingguan",
-    content: `<p>Bergabunglah bersama kami setiap Jumat setelah sholat Jumat untuk kajian Islam mingguan di mana kita mempelajari ajaran-ajaran indah Islam.</p>
-    <p>Topik minggu ini: Memahami 99 Nama Allah dan bagaimana penerapannya dalam kehidupan sehari-hari.</p>
-    <h3>Apa yang Diharapkan</h3>
-    <ul>
-      <li>Diskusi interaktif dipimpin oleh anggota senior</li>
-      <li>Sesi tanya jawab dengan guru agama sekolah</li>
-      <li>Disediakan makanan ringan</li>
-      <li>Sertifikat kehadiran untuk anggota aktif</li>
-    </ul>`,
-    thumbnail: "",
-    category: "kegiatan",
-    date: "2024-01-20",
-    excerpt: "Bergabunglah bersama kami setiap Jumat setelah sholat Jumat untuk kajian Islam mingguan."
-  },
-  {
-    id: "3",
-    title: "Akan Datang: Hari Bersih-Bersih Masjid Sekolah",
-    content: `<p>Sebagai bagian dari komitmen kami untuk menjaga tempat suci kita, JAMAS mengadakan hari bersih-bersih masjid Sabtu ini.</p>
-    <p>Semua anggota diajak untuk berpartisipasi dalam kegiatan berkah ini. Rasulullah SAW bersabda: "Kebersihan adalah sebagian dari iman."</p>
-    <h3>Jadwal</h3>
-    <ul>
-      <li>08:00 - Berkumpul dan pembagian tugas</li>
-      <li>08:30 - Bersih-bersih dimulai</li>
-      <li>11:00 - Istirahat dan makanan ringan</li>
-      <li>12:00 - Sholat Dzuhur berjamaah</li>
-    </ul>`,
-    thumbnail: "",
-    category: "pengumuman",
-    date: "2024-01-25",
-    excerpt: "Bergabunglah dalam hari bersih-bersih masjid sekolah dan raih pahala yang berlimpah."
-  }
-];
-
-// Migrate old categories to new ones
-const migrateCategories = (posts: Post[]): Post[] => {
-  const categoryMap: Record<string, "ilmu" | "kegiatan" | "pengumuman"> = {
-    study: "ilmu",
-    dakwah: "ilmu",
-    activity: "kegiatan"
-  };
-  
-  let needsUpdate = false;
-  const migratedPosts = posts.map(post => {
-    const oldCategory = post.category as string;
-    if (categoryMap[oldCategory]) {
-      needsUpdate = true;
-      return { ...post, category: categoryMap[oldCategory] };
-    }
-    return post;
-  });
-  
-  if (needsUpdate) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(migratedPosts));
-  }
-  
-  return migratedPosts;
+export const getPosts = async (): Promise<Post[]> => {
+  const { data, error } = await supabase
+    .from("posts")
+    .select("*")
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return (data || []).map(mapRow);
 };
 
-export const getPosts = (): Post[] => {
-  const stored = localStorage.getItem(STORAGE_KEY);
-  if (stored) {
-    const posts = JSON.parse(stored);
-    return migrateCategories(posts);
-  }
-  // Initialize with default posts
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultPosts));
-  return defaultPosts;
+export const getPostById = async (id: string): Promise<Post | undefined> => {
+  const { data, error } = await supabase
+    .from("posts")
+    .select("*")
+    .eq("id", id)
+    .maybeSingle();
+  if (error) throw error;
+  return data ? mapRow(data) : undefined;
 };
 
-export const getPostById = (id: string): Post | undefined => {
-  const posts = getPosts();
-  return posts.find(post => post.id === id);
+export const getRecentPosts = async (count: number = 3): Promise<Post[]> => {
+  const { data, error } = await supabase
+    .from("posts")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(count);
+  if (error) throw error;
+  return (data || []).map(mapRow);
 };
 
-export const getRecentPosts = (count: number = 3): Post[] => {
-  const posts = getPosts();
-  return posts
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, count);
+export const addPost = async (post: Omit<Post, "id">): Promise<Post> => {
+  const { data, error } = await supabase
+    .from("posts")
+    .insert({
+      title: post.title,
+      content: post.content,
+      thumbnail: post.thumbnail,
+      category: post.category,
+      excerpt: post.excerpt,
+      created_at: post.date ? new Date(post.date).toISOString() : new Date().toISOString(),
+    })
+    .select()
+    .single();
+  if (error) throw error;
+  return mapRow(data);
 };
 
-export const addPost = (post: Omit<Post, "id">): Post => {
-  const posts = getPosts();
-  const newPost: Post = {
-    ...post,
-    id: Date.now().toString()
-  };
-  posts.push(newPost);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
-  return newPost;
+export const updatePost = async (id: string, updates: Partial<Post>): Promise<Post | null> => {
+  const updateData: any = {};
+  if (updates.title !== undefined) updateData.title = updates.title;
+  if (updates.content !== undefined) updateData.content = updates.content;
+  if (updates.thumbnail !== undefined) updateData.thumbnail = updates.thumbnail;
+  if (updates.category !== undefined) updateData.category = updates.category;
+  if (updates.excerpt !== undefined) updateData.excerpt = updates.excerpt;
+  if (updates.date !== undefined) updateData.created_at = new Date(updates.date).toISOString();
+
+  const { data, error } = await supabase
+    .from("posts")
+    .update(updateData)
+    .eq("id", id)
+    .select()
+    .single();
+  if (error) throw error;
+  return data ? mapRow(data) : null;
 };
 
-export const updatePost = (id: string, updates: Partial<Post>): Post | null => {
-  const posts = getPosts();
-  const index = posts.findIndex(post => post.id === id);
-  if (index === -1) return null;
-  
-  posts[index] = { ...posts[index], ...updates };
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
-  return posts[index];
-};
-
-export const deletePost = (id: string): boolean => {
-  const posts = getPosts();
-  const filtered = posts.filter(post => post.id !== id);
-  if (filtered.length === posts.length) return false;
-  
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered));
+export const deletePost = async (id: string): Promise<boolean> => {
+  const { error } = await supabase.from("posts").delete().eq("id", id);
+  if (error) throw error;
   return true;
 };
 

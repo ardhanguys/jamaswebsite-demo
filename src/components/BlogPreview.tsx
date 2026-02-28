@@ -7,7 +7,7 @@ const BlogPreview = () => {
   const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
-    setPosts(getRecentPosts(3));
+    getRecentPosts(3).then(setPosts);
   }, []);
 
   const formatDate = (dateString: string) => {
@@ -31,10 +31,7 @@ const BlogPreview = () => {
               Postingan Terbaru
             </h2>
           </div>
-          <Link
-            to="/blog"
-            className="inline-flex items-center gap-2 text-primary font-medium hover:text-accent transition-colors group"
-          >
+          <Link to="/blog" className="inline-flex items-center gap-2 text-primary font-medium hover:text-accent transition-colors group">
             Lihat Semua Postingan
             <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
           </Link>
@@ -43,48 +40,27 @@ const BlogPreview = () => {
         {/* Posts Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {posts.map((post, index) => (
-            <article
-              key={post.id}
-              className="card-elegant group"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              {/* Thumbnail */}
+            <article key={post.id} className="card-elegant group" style={{ animationDelay: `${index * 0.1}s` }}>
               <div className="aspect-video bg-primary/10 relative overflow-hidden">
                 {post.thumbnail ? (
-                  <img
-                    src={post.thumbnail}
-                    alt={post.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
+                  <img src={post.thumbnail} alt={post.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-accent/20">
-                    <span className="text-6xl font-bold text-primary/20">
-                      {post.title.charAt(0)}
-                    </span>
+                    <span className="text-6xl font-bold text-primary/20">{post.title.charAt(0)}</span>
                   </div>
                 )}
-                {/* Category Badge */}
                 <span className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-medium ${getCategoryColor(post.category)}`}>
                   {getCategoryLabel(post.category)}
                 </span>
               </div>
-
-              {/* Content */}
               <div className="p-6">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
                   <Calendar size={14} />
                   <time dateTime={post.date}>{formatDate(post.date)}</time>
                 </div>
-                <h3 className="text-xl font-semibold text-primary mb-3 line-clamp-2 group-hover:text-accent transition-colors">
-                  {post.title}
-                </h3>
-                <p className="text-muted-foreground line-clamp-3 mb-4">
-                  {post.excerpt}
-                </p>
-                <Link
-                  to={`/post/${post.id}`}
-                  className="inline-flex items-center gap-2 text-primary font-medium hover:text-accent transition-colors group/link"
-                >
+                <h3 className="text-xl font-semibold text-primary mb-3 line-clamp-2 group-hover:text-accent transition-colors">{post.title}</h3>
+                <p className="text-muted-foreground line-clamp-3 mb-4">{post.excerpt}</p>
+                <Link to={`/post/${post.id}`} className="inline-flex items-center gap-2 text-primary font-medium hover:text-accent transition-colors group/link">
                   Baca Selengkapnya
                   <ArrowRight size={16} className="transition-transform group-hover/link:translate-x-1" />
                 </Link>
