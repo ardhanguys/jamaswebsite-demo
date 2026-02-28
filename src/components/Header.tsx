@@ -58,7 +58,7 @@ const Header = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
             <img src={logoJamas} alt="JAMAS Logo" className="w-12 h-12 object-contain" />
-            <span className={cn("font-bold text-xl transition-colors duration-300", isScrolled ? "text-primary" : "text-primary")}>
+            <span className={cn("font-bold text-xl transition-colors duration-300", isScrolled ? "text-primary" : "text-white")}>
               JAMAS
             </span>
           </Link>
@@ -68,11 +68,11 @@ const Header = () => {
             {navLinks.map(link => (
               <li key={link.path}>
                 {link.path.startsWith("/#") ? (
-                  <Link to={link.path} onClick={() => handleNavClick(link.path)} className={cn("font-medium transition-colors duration-300 hover:text-accent relative py-2", "after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-accent after:transition-all after:duration-300 hover:after:w-full", isScrolled ? "text-foreground" : "text-foreground")}>
+                  <Link to={link.path} onClick={() => handleNavClick(link.path)} className={cn("font-medium transition-colors duration-300 hover:text-accent relative py-2", "after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-accent after:transition-all after:duration-300 hover:after:w-full", isScrolled ? "text-foreground" : "text-white/90")}>
                     {link.name}
                   </Link>
                 ) : (
-                  <Link to={link.path} className={cn("font-medium transition-colors duration-300 hover:text-accent relative py-2", "after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-accent after:transition-all after:duration-300 hover:after:w-full", location.pathname === link.path && "text-accent after:w-full")}>
+                  <Link to={link.path} className={cn("font-medium transition-colors duration-300 hover:text-accent relative py-2", "after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-accent after:transition-all after:duration-300 hover:after:w-full", isScrolled ? "text-foreground" : "text-white/90", location.pathname === link.path && "text-accent after:w-full")}>
                     {link.name}
                   </Link>
                 )}
@@ -81,7 +81,7 @@ const Header = () => {
           </ul>
 
           {/* Mobile Menu Button */}
-          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="md:hidden p-2 text-foreground hover:text-accent transition-colors" aria-label="Toggle menu">
+          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className={cn("md:hidden p-2 transition-colors", isScrolled ? "text-foreground hover:text-accent" : "text-white hover:text-accent")} aria-label="Toggle menu">
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </nav>
