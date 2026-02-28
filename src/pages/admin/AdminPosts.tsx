@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Plus, Edit2, Trash2, ArrowLeft, X, Upload, Save, LogOut, Eye } from "lucide-react";
-import { isAuthenticated, logout } from "@/lib/auth";
+import { isAdmin, logout } from "@/lib/auth";
 import { getPosts, addPost, updatePost, deletePost, Post, getCategoryLabel, getCategoryColor } from "@/lib/posts";
 import { toast } from "@/hooks/use-toast";
 import RichTextEditor from "@/components/RichTextEditor";
@@ -21,29 +21,32 @@ const AdminPosts = () => {
   const [editingPost, setEditingPost] = useState<Partial<Post> | null>(null);
   const [previewPost, setPreviewPost] = useState<Partial<Post> | null>(null);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!isAuthenticated()) {
-      navigate("/admin/login");
-      return;
-    }
+    const init = async () => {
+      const admin = await isAdmin();
+      if (!admin) {
+        navigate("/admin/login");
+        return;
+      }
+      await loadPosts();
+      setLoading(false);
 
-    loadPosts();
-
-    if (searchParams.get("action") === "new") {
-      handleNewPost();
-    }
+      if (searchParams.get("action") === "new") {
+        handleNewPost();
+      }
+    };
+    init();
   }, [navigate, searchParams]);
 
-  const loadPosts = () => {
-    const allPosts = getPosts().sort(
-      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-    );
+  const loadPosts = async () => {
+    const allPosts = await getPosts();
     setPosts(allPosts);
   };
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     navigate("/admin/login");
   };
 
@@ -64,10 +67,10 @@ const AdminPosts = () => {
     setIsEditing(true);
   };
 
-  const handleDeletePost = (id: string) => {
+  const handleDeletePost = async (id: string) => {
     if (window.confirm("Apakah Anda yakin ingin menghapus postingan ini?")) {
-      deletePost(id);
-      loadPosts();
+      await deletePost(id);
+      await loadPosts();
       toast({
         title: "Postingan dihapus",
         description: "Postingan telah berhasil dihapus."
@@ -89,7 +92,7 @@ const AdminPosts = () => {
     }
   };
 
-  const handleSavePost = () => {
+  const handleSavePost = async () => {
     if (!editingPost?.title || !editingPost?.content) {
       toast({
         title: "Error",
@@ -108,23 +111,21 @@ const AdminPosts = () => {
       date: editingPost.date || new Date().toISOString().split("T")[0]
     };
 
-    if (editingPost.id) {
-      updatePost(editingPost.id, postData);
-      toast({
-        title: "Postingan diperbarui",
-        description: "Postingan telah berhasil diperbarui."
-      });
-    } else {
-      addPost(postData);
-      toast({
-        title: "Postingan dibuat",
-        description: "Postingan telah berhasil dibuat."
-      });
-    }
+    try {
+      if (editingPost.id) {
+        await updatePost(editingPost.id, postData);
+        toast({ title: "Postingan diperbarui", description: "Postingan telah berhasil diperbarui." });
+      } else {
+        await addPost(postData);
+        toast({ title: "Postingan dibuat", description: "Postingan telah berhasil dibuat." });
+      }
 
-    setIsEditing(false);
-    setEditingPost(null);
-    loadPosts();
+      setIsEditing(false);
+      setEditingPost(null);
+      await loadPosts();
+    } catch (err) {
+      toast({ title: "Error", description: "Gagal menyimpan postingan.", variant: "destructive" });
+    }
   };
 
   const formatDate = (dateString: string) => {
@@ -134,6 +135,14 @@ const AdminPosts = () => {
       day: "numeric"
     });
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-cream">
+        <div className="animate-pulse text-primary">Memuat...</div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -148,24 +157,16 @@ const AdminPosts = () => {
               <img src="/logo-jamas.png" alt="JAMAS Logo" className="w-10 h-10 object-contain" />
               <span className="font-bold text-xl">JAMAS Admin</span>
             </div>
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 px-4 py-2 bg-primary-foreground/10 hover:bg-primary-foreground/20 rounded-lg transition-colors"
-            >
+            <button onClick={handleLogout} className="flex items-center gap-2 px-4 py-2 bg-primary-foreground/10 hover:bg-primary-foreground/20 rounded-lg transition-colors">
               <LogOut size={18} />
               <span className="hidden sm:inline">Keluar</span>
             </button>
           </div>
         </header>
 
-        {/* Main Content */}
         <main className="max-w-7xl mx-auto px-4 py-8">
-          {/* Breadcrumb */}
           <div className="mb-6">
-            <button
-              onClick={() => navigate("/admin/dashboard")}
-              className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
-            >
+            <button onClick={() => navigate("/admin/dashboard")} className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
               <ArrowLeft size={18} />
               Kembali ke Dashboard
             </button>
@@ -173,30 +174,22 @@ const AdminPosts = () => {
 
           {!isEditing ? (
             <>
-              {/* Page Header */}
               <div className="flex items-center justify-between mb-8">
                 <div>
                   <h1 className="text-3xl font-bold text-primary mb-2">Kelola Postingan</h1>
                   <p className="text-muted-foreground">{posts.length} total postingan</p>
                 </div>
-                <button
-                  onClick={handleNewPost}
-                  className="btn-primary flex items-center gap-2"
-                >
+                <button onClick={handleNewPost} className="btn-primary flex items-center gap-2">
                   <Plus size={18} />
                   Postingan Baru
                 </button>
               </div>
 
-              {/* Posts List */}
               <div className="bg-background rounded-xl shadow-elegant overflow-hidden">
                 {posts.length === 0 ? (
                   <div className="p-12 text-center">
                     <p className="text-muted-foreground mb-4">Belum ada postingan.</p>
-                    <button
-                      onClick={handleNewPost}
-                      className="btn-accent inline-flex items-center gap-2"
-                    >
+                    <button onClick={handleNewPost} className="btn-accent inline-flex items-center gap-2">
                       <Plus size={18} />
                       Buat postingan pertama
                     </button>
@@ -218,11 +211,7 @@ const AdminPosts = () => {
                             <td className="px-6 py-4">
                               <div className="flex items-center gap-3">
                                 {post.thumbnail ? (
-                                  <img
-                                    src={post.thumbnail}
-                                    alt=""
-                                    className="w-12 h-12 rounded-lg object-cover"
-                                  />
+                                  <img src={post.thumbnail} alt="" className="w-12 h-12 rounded-lg object-cover" />
                                 ) : (
                                   <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
                                     <span className="text-primary font-bold">{post.title.charAt(0)}</span>
@@ -236,33 +225,16 @@ const AdminPosts = () => {
                                 {getCategoryLabel(post.category)}
                               </span>
                             </td>
-                            <td className="px-6 py-4 text-muted-foreground">
-                              {formatDate(post.date)}
-                            </td>
+                            <td className="px-6 py-4 text-muted-foreground">{formatDate(post.date)}</td>
                             <td className="px-6 py-4">
                               <div className="flex items-center justify-end gap-1 sm:gap-2">
-                                <button
-                                  onClick={() => {
-                                    setPreviewPost(post);
-                                    setIsPreviewOpen(true);
-                                  }}
-                                  className="p-2 text-muted-foreground hover:text-accent hover:bg-accent/10 rounded-lg transition-colors"
-                                  title="Preview"
-                                >
+                                <button onClick={() => { setPreviewPost(post); setIsPreviewOpen(true); }} className="p-2 text-muted-foreground hover:text-accent hover:bg-accent/10 rounded-lg transition-colors" title="Preview">
                                   <Eye size={18} />
                                 </button>
-                                <button
-                                  onClick={() => handleEditPost(post)}
-                                  className="p-2 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg transition-colors"
-                                  title="Edit"
-                                >
+                                <button onClick={() => handleEditPost(post)} className="p-2 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg transition-colors" title="Edit">
                                   <Edit2 size={18} />
                                 </button>
-                                <button
-                                  onClick={() => handleDeletePost(post.id)}
-                                  className="p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-lg transition-colors"
-                                  title="Hapus"
-                                >
+                                <button onClick={() => handleDeletePost(post.id)} className="p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-lg transition-colors" title="Hapus">
                                   <Trash2 size={18} />
                                 </button>
                               </div>
@@ -276,84 +248,44 @@ const AdminPosts = () => {
               </div>
             </>
           ) : (
-            /* Edit/Create Form */
             <div className="bg-background rounded-xl shadow-elegant p-8">
               <div className="flex items-center justify-between mb-8">
                 <h2 className="text-2xl font-bold text-primary">
                   {editingPost?.id ? "Edit Postingan" : "Buat Postingan Baru"}
                 </h2>
-                <button
-                  onClick={() => {
-                    setIsEditing(false);
-                    setEditingPost(null);
-                  }}
-                  className="p-2 text-muted-foreground hover:text-foreground hover:bg-cream rounded-lg transition-colors"
-                >
+                <button onClick={() => { setIsEditing(false); setEditingPost(null); }} className="p-2 text-muted-foreground hover:text-foreground hover:bg-cream rounded-lg transition-colors">
                   <X size={20} />
                 </button>
               </div>
 
               <div className="space-y-6">
-                {/* Title */}
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Judul <span className="text-destructive">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={editingPost?.title || ""}
-                    onChange={(e) => setEditingPost(prev => ({ ...prev, title: e.target.value }))}
-                    className="w-full px-4 py-3 bg-cream border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
-                    placeholder="Masukkan judul postingan"
-                  />
+                  <label className="block text-sm font-medium text-foreground mb-2">Judul <span className="text-destructive">*</span></label>
+                  <input type="text" value={editingPost?.title || ""} onChange={(e) => setEditingPost(prev => ({ ...prev, title: e.target.value }))} className="w-full px-4 py-3 bg-cream border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent" placeholder="Masukkan judul postingan" />
                 </div>
 
-                {/* Category & Date */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
-                      Kategori
-                    </label>
-                    <select
-                      value={editingPost?.category || "ilmu"}
-                      onChange={(e) => setEditingPost(prev => ({ ...prev, category: e.target.value as Post["category"] }))}
-                      className="w-full px-4 py-3 bg-cream border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
-                    >
+                    <label className="block text-sm font-medium text-foreground mb-2">Kategori</label>
+                    <select value={editingPost?.category || "ilmu"} onChange={(e) => setEditingPost(prev => ({ ...prev, category: e.target.value as Post["category"] }))} className="w-full px-4 py-3 bg-cream border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent">
                       <option value="ilmu">Ilmu & Kajian</option>
                       <option value="kegiatan">Kegiatan</option>
                       <option value="pengumuman">Pengumuman</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
-                      Tanggal
-                    </label>
-                    <input
-                      type="date"
-                      value={editingPost?.date || ""}
-                      onChange={(e) => setEditingPost(prev => ({ ...prev, date: e.target.value }))}
-                      className="w-full px-4 py-3 bg-cream border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
-                    />
+                    <label className="block text-sm font-medium text-foreground mb-2">Tanggal</label>
+                    <input type="date" value={editingPost?.date || ""} onChange={(e) => setEditingPost(prev => ({ ...prev, date: e.target.value }))} className="w-full px-4 py-3 bg-cream border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent" />
                   </div>
                 </div>
 
-                {/* Thumbnail */}
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Thumbnail
-                  </label>
+                  <label className="block text-sm font-medium text-foreground mb-2">Thumbnail</label>
                   <div className="flex items-start gap-4">
                     {editingPost?.thumbnail ? (
                       <div className="relative">
-                        <img
-                          src={editingPost.thumbnail}
-                          alt="Preview thumbnail"
-                          className="w-32 h-24 object-cover rounded-lg"
-                        />
-                        <button
-                          onClick={() => setEditingPost(prev => ({ ...prev, thumbnail: "" }))}
-                          className="absolute -top-2 -right-2 w-6 h-6 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center"
-                        >
+                        <img src={editingPost.thumbnail} alt="Preview thumbnail" className="w-32 h-24 object-cover rounded-lg" />
+                        <button onClick={() => setEditingPost(prev => ({ ...prev, thumbnail: "" }))} className="absolute -top-2 -right-2 w-6 h-6 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center">
                           <X size={14} />
                         </button>
                       </div>
@@ -361,71 +293,32 @@ const AdminPosts = () => {
                       <label className="w-32 h-24 border-2 border-dashed border-border rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-accent transition-colors">
                         <Upload size={20} className="text-muted-foreground mb-1" />
                         <span className="text-xs text-muted-foreground">Unggah</span>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={handleThumbnailUpload}
-                          className="hidden"
-                        />
+                        <input type="file" accept="image/*" onChange={handleThumbnailUpload} className="hidden" />
                       </label>
                     )}
                   </div>
                 </div>
 
-                {/* Excerpt */}
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Ringkasan
-                  </label>
-                  <textarea
-                    value={editingPost?.excerpt || ""}
-                    onChange={(e) => setEditingPost(prev => ({ ...prev, excerpt: e.target.value }))}
-                    className="w-full px-4 py-3 bg-cream border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent resize-none"
-                    rows={2}
-                    placeholder="Ringkasan singkat (otomatis jika dikosongkan)"
-                  />
+                  <label className="block text-sm font-medium text-foreground mb-2">Ringkasan</label>
+                  <textarea value={editingPost?.excerpt || ""} onChange={(e) => setEditingPost(prev => ({ ...prev, excerpt: e.target.value }))} className="w-full px-4 py-3 bg-cream border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent resize-none" rows={2} placeholder="Ringkasan singkat (otomatis jika dikosongkan)" />
                 </div>
 
-                {/* Content */}
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Konten <span className="text-destructive">*</span>
-                  </label>
-                  <RichTextEditor
-                    value={editingPost?.content || ""}
-                    onChange={(content) => setEditingPost(prev => ({ ...prev, content }))}
-                    placeholder="Tulis konten postingan di sini..."
-                  />
-                  <p className="text-xs text-muted-foreground mt-2">
-                    Gunakan toolbar di atas untuk memformat teks dengan mudah.
-                  </p>
+                  <label className="block text-sm font-medium text-foreground mb-2">Konten <span className="text-destructive">*</span></label>
+                  <RichTextEditor value={editingPost?.content || ""} onChange={(content) => setEditingPost(prev => ({ ...prev, content }))} placeholder="Tulis konten postingan di sini..." />
+                  <p className="text-xs text-muted-foreground mt-2">Gunakan toolbar di atas untuk memformat teks dengan mudah.</p>
                 </div>
 
-                {/* Actions */}
                 <div className="flex flex-col sm:flex-row items-center justify-end gap-3 sm:gap-4 pt-4 border-t border-border">
-                  <button
-                    onClick={() => {
-                      setIsEditing(false);
-                      setEditingPost(null);
-                    }}
-                    className="w-full sm:w-auto px-6 py-2 text-muted-foreground hover:text-foreground transition-colors order-3 sm:order-1"
-                  >
+                  <button onClick={() => { setIsEditing(false); setEditingPost(null); }} className="w-full sm:w-auto px-6 py-2 text-muted-foreground hover:text-foreground transition-colors order-3 sm:order-1">
                     Batal
                   </button>
-                  <button
-                    onClick={() => {
-                      setPreviewPost(editingPost);
-                      setIsPreviewOpen(true);
-                    }}
-                    className="w-full sm:w-auto btn-accent flex items-center justify-center gap-2 order-2"
-                  >
+                  <button onClick={() => { setPreviewPost(editingPost); setIsPreviewOpen(true); }} className="w-full sm:w-auto btn-accent flex items-center justify-center gap-2 order-2">
                     <Eye size={18} />
                     Preview
                   </button>
-                  <button
-                    onClick={handleSavePost}
-                    className="w-full sm:w-auto btn-primary flex items-center justify-center gap-2 order-1 sm:order-3"
-                  >
+                  <button onClick={handleSavePost} className="w-full sm:w-auto btn-primary flex items-center justify-center gap-2 order-1 sm:order-3">
                     <Save size={18} />
                     {editingPost?.id ? "Perbarui Postingan" : "Buat Postingan"}
                   </button>
@@ -442,50 +335,28 @@ const AdminPosts = () => {
               </DialogHeader>
               {previewPost && (
                 <div className="mt-4">
-                  {/* Preview Hero Image */}
                   {previewPost.thumbnail ? (
                     <div className="aspect-video rounded-xl overflow-hidden mb-6">
-                      <img
-                        src={previewPost.thumbnail}
-                        alt={previewPost.title || "Preview"}
-                        className="w-full h-full object-cover"
-                      />
+                      <img src={previewPost.thumbnail} alt={previewPost.title || "Preview"} className="w-full h-full object-cover" />
                     </div>
                   ) : (
                     <div className="aspect-video rounded-xl overflow-hidden mb-6 bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
-                      <span className="text-7xl font-bold text-primary/20">
-                        {previewPost.title?.charAt(0) || "?"}
-                      </span>
+                      <span className="text-7xl font-bold text-primary/20">{previewPost.title?.charAt(0) || "?"}</span>
                     </div>
                   )}
-
-                  {/* Preview Meta */}
                   <div className="flex flex-wrap items-center gap-3 mb-4">
-                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${getCategoryColor(previewPost.category || "study")}`}>
-                      {getCategoryLabel(previewPost.category || "study")}
+                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${getCategoryColor(previewPost.category || "ilmu")}`}>
+                      {getCategoryLabel(previewPost.category || "ilmu")}
                     </span>
                     <span className="text-sm text-muted-foreground">
                       {previewPost.date ? formatDate(previewPost.date) : "Tanggal belum dipilih"}
                     </span>
                   </div>
-
-                  {/* Preview Title */}
-                  <h2 className="text-2xl sm:text-3xl font-bold text-primary mb-4 leading-tight">
-                    {previewPost.title || "Judul belum diisi"}
-                  </h2>
-
-                  {/* Preview Excerpt */}
+                  <h2 className="text-2xl sm:text-3xl font-bold text-primary mb-4 leading-tight">{previewPost.title || "Judul belum diisi"}</h2>
                   {previewPost.excerpt && (
-                    <p className="text-muted-foreground italic mb-6 pb-4 border-b border-border">
-                      {previewPost.excerpt}
-                    </p>
+                    <p className="text-muted-foreground italic mb-6 pb-4 border-b border-border">{previewPost.excerpt}</p>
                   )}
-
-                  {/* Preview Content */}
-                  <div
-                    className="prose prose-sm sm:prose-base max-w-none prose-headings:text-primary prose-headings:font-semibold prose-p:text-muted-foreground prose-a:text-accent hover:prose-a:text-primary prose-strong:text-foreground prose-ul:text-muted-foreground prose-li:marker:text-accent"
-                    dangerouslySetInnerHTML={{ __html: previewPost.content || "<p>Konten belum diisi</p>" }}
-                  />
+                  <div className="prose prose-sm sm:prose-base max-w-none prose-headings:text-primary prose-headings:font-semibold prose-p:text-muted-foreground prose-a:text-accent hover:prose-a:text-primary prose-strong:text-foreground prose-ul:text-muted-foreground prose-li:marker:text-accent" dangerouslySetInnerHTML={{ __html: previewPost.content || "<p>Konten belum diisi</p>" }} />
                 </div>
               )}
             </DialogContent>

@@ -18,14 +18,11 @@ const Blog = () => {
   const [activeCategory, setActiveCategory] = useState("all");
 
   useEffect(() => {
-    // Scroll to top when navigating to this page
     window.scrollTo(0, 0);
-    
-    const allPosts = getPosts().sort(
-      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-    );
-    setPosts(allPosts);
-    setFilteredPosts(allPosts);
+    getPosts().then((allPosts) => {
+      setPosts(allPosts);
+      setFilteredPosts(allPosts);
+    });
   }, []);
 
   useEffect(() => {
@@ -46,20 +43,14 @@ const Blog = () => {
         <Header />
         <main className="pt-32 pb-20">
           <div className="container-custom">
-            {/* Page Header */}
             <div className="text-center max-w-3xl mx-auto mb-12">
               <span className="inline-block px-4 py-1 bg-accent/20 text-accent rounded-full text-sm font-medium mb-4">
                 Dakwah & Kegiatan
               </span>
-              <h1 className="text-4xl md:text-5xl font-bold text-primary mb-6">
-                Semua Postingan
-              </h1>
-              <p className="text-lg text-muted-foreground">
-                Jelajahi koleksi artikel Islam, konten dakwah, dan update kegiatan kami.
-              </p>
+              <h1 className="text-4xl md:text-5xl font-bold text-primary mb-6">Semua Postingan</h1>
+              <p className="text-lg text-muted-foreground">Jelajahi koleksi artikel Islam, konten dakwah, dan update kegiatan kami.</p>
             </div>
 
-            {/* Category Filter */}
             <div className="flex flex-wrap justify-center gap-3 mb-12">
               {categories.map(category => (
                 <button
@@ -76,14 +67,9 @@ const Blog = () => {
               ))}
             </div>
 
-            {/* Posts Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredPosts.map((post, index) => (
-                <div
-                  key={post.id}
-                  className="animate-fade-in"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
+                <div key={post.id} className="animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
                   <PostCard post={post} />
                 </div>
               ))}
@@ -91,9 +77,7 @@ const Blog = () => {
 
             {filteredPosts.length === 0 && (
               <div className="text-center py-20">
-                <p className="text-xl text-muted-foreground">
-                  Tidak ada postingan ditemukan dalam kategori ini.
-                </p>
+                <p className="text-xl text-muted-foreground">Tidak ada postingan ditemukan dalam kategori ini.</p>
               </div>
             )}
           </div>
